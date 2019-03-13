@@ -67,7 +67,7 @@ train_step = tf.train.GradientDescentOptimizer(0.01).minimize(cross_entropy)
 correct_prediction = tf.equal(tf.argmax(y, 1), tf.argmax(t, 1))
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 
-epochs = 5
+epochs = 1
 batch_size = 200
 
 init = tf.global_variables_initializer()
@@ -96,18 +96,19 @@ print()
 
 
 # A list for f(x): [[], [], [], [], [], [], [], [], [], []]
-a = [None]*10
+tmp = [None]*10
 for i in range(10):
-    a[i] = list()
+    tmp[i] = list()
 
 # Get f(x) and append to 'a' distinguished by label
 label = sess.run(tf.argmax(y, 1), feed_dict={x: X_train})
 f_x = sess.run(h2, feed_dict={x: X_train})
 
 for i in range(len(label)):
-    a[label[i]].append(np.array(f_x[i]))
+    tmp[label[i]].append(np.array(f_x[i]))
 
-data = np.array(a)
+data = np.array(tmp)
+tmp = np.array(tmp)
 
 a = [None]*10
 for i in range(10):
@@ -123,7 +124,29 @@ for i in range(10):
         a[i] = data[i][0] / len(data[i])
 
 mean = np.array(a)
-# print(mean)
+
+a = [None]*10
+for i in range(10):
+    a[i] = list()
+
+for i in range(10):
+    if len(tmp[i]) == 0:
+        a[i] = [0]
+    elif len(tmp[i]) == 1:
+        a[i] = tmp[i][0]
+    else:
+        for j in range(len(tmp[i])-2):
+            tmp[i][0] += (tmp[i][j+1] - mean[i])@(tmp[i][j+1]-mean[i]).T
+        a[i] = tmp[i][0]
+
+for i in range(9):
+    a[0] += a[i+1]
+
+a[0] = a[0] / (train_size * 10000) 
+
+
+
+
 
 # distance of training datasets
 a = [None]*10

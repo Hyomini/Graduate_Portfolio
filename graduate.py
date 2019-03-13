@@ -53,7 +53,7 @@ train_step = tf.train.GradientDescentOptimizer(0.01).minimize(cross_entropy)
 correct_prediction = tf.equal(tf.argmax(y, 1), tf.argmax(t, 1))
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 
-epochs = 10
+epochs = 5
 batch_size = 200
 
 init = tf.global_variables_initializer()
@@ -92,7 +92,7 @@ f_x = sess.run(h2, feed_dict={x: X_train})
 
 for i in range(len(label)):
     a[label[i]].append(np.array(f_x[i]))
-
+print(a[0][0])
 data = np.array(a)
 
 a = [None]*10
