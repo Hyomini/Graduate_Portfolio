@@ -29,23 +29,37 @@ n_hidden = 200
 n_out = len(Y[0])  # 10
 
 x = tf.placeholder(tf.float32, shape=[None, n_in])
+x_img = tf.reshape(x, [-1,28,28,1])
 t = tf.placeholder(tf.float32, shape=[None, n_out])
+keep_prob = tf.placeholder(tf.float32)
 
-W0 = tf.Variable(tf.truncated_normal([n_in, n_hidden], stddev=0.01))  # 표준편자 0.1로 하면 GVP
-b0 = tf.Variable(tf.zeros([n_hidden]))
-h0 = tf.nn.relu(tf.matmul(x, W0) + b0)
+W0 = tf.Variable(tf.truncated_normal([3,3,1,32], stddev=0.01))  # 표준편자 0.1로 하면 GVP
+L0 = tf.nn.conv2d(x_img, W0, strides = [1,1,1,1], padding = 'SAME')
+L0 = tf.nn.relu(L0)
+L0 = tf.nn.max_pool(L0, ksize=[1,2,2,1], strides=[1,2,2,1], padding = 'SAME')
+L0 = tf.nn.dropout(L0, keep_prob=keep_prob)
 
-W1 = tf.Variable(tf.truncated_normal([n_hidden, n_hidden], stddev=0.01))
-b1 = tf.Variable(tf.zeros([n_hidden]))
-h1 = tf.nn.relu(tf.matmul(h0, W1) + b1)
+W1 = tf.Variable(tf.truncated_normal([3,3,32,64], stddev=0.01))
+L1 = tf.nn.conv2d(L0,W1,strides=[1,1,1,1],padding='SAME')
+L1 = tf.nn.relu(L1)
+L1 = tf.nn.max_pool(L1, ksize=[1,2,2,1], strides=[1,2,2,1], padding='SAME')
+L1 = tf.nn.dropout(L1, keep_prob=keep_prob)
 
-W2 = tf.Variable(tf.truncated_normal([n_hidden, n_hidden], stddev=0.01))
-b2 = tf.Variable(tf.zeros([n_hidden]))
-h2 = tf.nn.relu(tf.matmul(h1, W2) + b2)
+W2 = tf.Variable(tf.truncated_normal([3,3,64,128], stddev=0.01))
+L2 = tf.nn.conv2d(L1, W2, strides=[1,1,1,1], padding='SAME')
+L2 = tf.nn.relu(L2)
+L2 = tf.nn.max_pool(L2, ksize=[1,2,2,1], strides=[1,2,2,1], padding='SAME')
+L2 = tf.nn.dropout(L2, keep_prob = keep_prob)
+L2 = tf.reshape(L2, [-1,128*4*4])
 
-W3 = tf.Variable(tf.truncated_normal([n_hidden, n_out], stddev=0.01))
-b3 = tf.Variable(tf.zeros([n_out]))
-y = tf.nn.softmax(tf.matmul(h2, W3) + b3)
+W3 = tf.get_variable("W3", shape=[128*4*4,625],initializer=tf.contrib.layers.xavier_initializer())
+b3 = tf.Variable(tf.truncated_normal([625]))
+L3 = tf.nn.relu(tf.matmul(L2,W3) + b3)
+L3 = tf.nn.dropout(L3, keep_prob=keep_prob)
+
+W4 = tf.get_variable("W4", shape[625,10], initializer = tf.contrib.layers.xavier_initializer())
+b4 = tf.Variable(tf.truncated_normal([10]))
+y = tf.random_normal([10])
 
 cross_entropy = tf.reduce_mean(-tf.reduce_sum(t * tf.log(y), axis=1))
 train_step = tf.train.GradientDescentOptimizer(0.01).minimize(cross_entropy)
