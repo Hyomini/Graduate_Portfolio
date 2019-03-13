@@ -11,7 +11,7 @@ import PIL.Image as pilimg
 np.random.seed(0)
 tf.set_random_seed(1234)
 
-mnist = datasets.fetch_mldata('MNIST original', data_home='.')
+mnist = datasets.fetch_mldata('MNIST original')
 
 n = len(mnist.data)
 N = 10000

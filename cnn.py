@@ -11,7 +11,7 @@ import PIL.Image as pilimg
 np.random.seed(0)
 tf.set_random_seed(1234)
 
-mnist = datasets.fetch_mldata('MNIST original', data_home='.')
+mnist = datasets.fetch_mldata("MNIST original")
 
 n = len(mnist.data)
 N = 10000
@@ -37,29 +37,29 @@ W0 = tf.Variable(tf.truncated_normal([3,3,1,32], stddev=0.01))  # 표준편자 0
 L0 = tf.nn.conv2d(x_img, W0, strides = [1,1,1,1], padding = 'SAME')
 L0 = tf.nn.relu(L0)
 L0 = tf.nn.max_pool(L0, ksize=[1,2,2,1], strides=[1,2,2,1], padding = 'SAME')
-L0 = tf.nn.dropout(L0, keep_prob=keep_prob)
+L0 = tf.nn.dropout(L0, keep_prob=0.8)
 
 W1 = tf.Variable(tf.truncated_normal([3,3,32,64], stddev=0.01))
 L1 = tf.nn.conv2d(L0,W1,strides=[1,1,1,1],padding='SAME')
 L1 = tf.nn.relu(L1)
 L1 = tf.nn.max_pool(L1, ksize=[1,2,2,1], strides=[1,2,2,1], padding='SAME')
-L1 = tf.nn.dropout(L1, keep_prob=keep_prob)
+L1 = tf.nn.dropout(L1, keep_prob=0.8)
 
 W2 = tf.Variable(tf.truncated_normal([3,3,64,128], stddev=0.01))
 L2 = tf.nn.conv2d(L1, W2, strides=[1,1,1,1], padding='SAME')
 L2 = tf.nn.relu(L2)
 L2 = tf.nn.max_pool(L2, ksize=[1,2,2,1], strides=[1,2,2,1], padding='SAME')
-L2 = tf.nn.dropout(L2, keep_prob = keep_prob)
+L2 = tf.nn.dropout(L2, keep_prob = 0.8)
 L2 = tf.reshape(L2, [-1,128*4*4])
 
 W3 = tf.get_variable("W3", shape=[128*4*4,625],initializer=tf.contrib.layers.xavier_initializer())
 b3 = tf.Variable(tf.truncated_normal([625]))
-L3 = tf.nn.relu(tf.matmul(L2,W3) + b3)
-L3 = tf.nn.dropout(L3, keep_prob=keep_prob)
+h2 = tf.nn.relu(tf.matmul(L2,W3) + b3)
+h2 = tf.nn.dropout(h2, keep_prob=0.8)
 
-W4 = tf.get_variable("W4", shape[625,10], initializer = tf.contrib.layers.xavier_initializer())
+W4 = tf.get_variable("W4", shape=[625,10], initializer = tf.contrib.layers.xavier_initializer())
 b4 = tf.Variable(tf.truncated_normal([10]))
-y = tf.random_normal([10])
+y = tf.nn.softmax(tf.matmul(h2,W4) + b4)
 
 cross_entropy = tf.reduce_mean(-tf.reduce_sum(t * tf.log(y), axis=1))
 train_step = tf.train.GradientDescentOptimizer(0.01).minimize(cross_entropy)
@@ -67,7 +67,7 @@ train_step = tf.train.GradientDescentOptimizer(0.01).minimize(cross_entropy)
 correct_prediction = tf.equal(tf.argmax(y, 1), tf.argmax(t, 1))
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 
-epochs = 10
+epochs = 5
 batch_size = 200
 
 init = tf.global_variables_initializer()
