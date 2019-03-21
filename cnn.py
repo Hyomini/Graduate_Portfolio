@@ -22,6 +22,8 @@ X = mnist.data[indices]
 y = mnist.target[indices]
 Y = np.eye(10)[y.astype(int)]
 
+print(X,Y)
+
 X_train, X_test, Y_train, Y_test = train_test_split(X, Y, train_size=train_size)
 
 n_in = len(X[0])  # 784
@@ -67,7 +69,7 @@ train_step = tf.train.GradientDescentOptimizer(0.01).minimize(cross_entropy)
 correct_prediction = tf.equal(tf.argmax(y, 1), tf.argmax(t, 1))
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 
-epochs = 1
+epochs = 20
 batch_size = 200
 
 init = tf.global_variables_initializer()
@@ -125,6 +127,7 @@ for i in range(10):
 
 mean = np.array(a)
 
+"""
 a = [None]*10
 for i in range(10):
     a[i] = list()
@@ -143,7 +146,7 @@ for i in range(9):
     a[0] += a[i+1]
 
 a[0] = a[0] / (train_size * 10000) 
-
+"""
 
 
 
