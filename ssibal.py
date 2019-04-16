@@ -34,8 +34,8 @@ def next_batch(num, data, labels):
 def Alexnet(x):
     # Hyperparameters
     mu = 0
-    sigma = 0.05
-    layer_depth = {'con1': 64, 'con2': 128, 'con3': 256, 'con4': 512, 'L1':128, 'L2':256, 'L3':512}
+    sigma = 0.1
+    layer_depth = {'con1': 16, 'con2': 64, 'con3': 128, 'con4': 256, 'L1':256, 'L2':128, 'L3':64}
 
     # Make penultimate logits as global variable
     global fullc2
@@ -49,7 +49,7 @@ def Alexnet(x):
     #conv1 = tf.nn.dropout(conv1, keep_prob)
     
     # size (16, 16, 64) -> (8,8, 128)
-    conv2_w = tf.Variable(tf.truncated_normal(shape=[5, 5, 64, layer_depth.get('con2')], mean=mu, stddev=sigma), name='conv2_w')
+    conv2_w = tf.Variable(tf.truncated_normal(shape=[5, 5, 16, layer_depth.get('con2')], mean=mu, stddev=sigma), name='conv2_w')
     conv2 = tf.nn.conv2d(conv1_bn, conv2_w, strides=[1, 1, 1, 1], padding='SAME')
     conv2 = tf.nn.relu(conv2)
     pool2 = tf.nn.max_pool(conv2, ksize=[1, 2, 2, 1], strides=[1, 2, 2, 1], padding='SAME')
@@ -59,7 +59,7 @@ def Alexnet(x):
  
     
     # size (8,8,128 ) -> (4,4,256)
-    conv3_w = tf.Variable(tf.truncated_normal(shape=[5,5,128,layer_depth.get('con3')], mean=mu, stddev=sigma), name = 'conv3_w')
+    conv3_w = tf.Variable(tf.truncated_normal(shape=[5,5,64,layer_depth.get('con3')], mean=mu, stddev=sigma), name = 'conv3_w')
     conv3 = tf.nn.conv2d(conv2_bn,conv3_w,strides=[1,1,1,1],padding='SAME')
     conv3 = tf.nn.relu(conv3)
     pool3 = tf.nn.max_pool(conv3, ksize=[1,2,2,1], strides=[1,2,2,1], padding='SAME')
@@ -67,27 +67,22 @@ def Alexnet(x):
     #conv3 = tf.nn.dropout(conv3, keep_prob)
    
     # size (4,4,256) -> (2,2,512)
-    conv4_w = tf.Variable(tf.truncated_normal(shape=[5,5,256,layer_depth.get('con4')], mean=mu, stddev=sigma), name='conv4_w')
+    conv4_w = tf.Variable(tf.truncated_normal(shape=[5,5,128,layer_depth.get('con4')], mean=mu, stddev=sigma), name='conv4_w')
     conv4 = tf.nn.conv2d(conv3_bn,conv4_w,strides=[1,1,1,1],padding='SAME')
     conv4 = tf.nn.relu(conv4)
     pool4 = tf.nn.max_pool(conv4, ksize=[1,2,2,1], strides=[1,2,2,1], padding='SAME')
     conv4_bn = tf.layers.batch_normalization(pool4)
     #conv4 = tf.nn.dropout(conv4, keep_prob)
     
-    #size (8,8,128) -> (8,8,128)
-    conv5_w = tf.Variable(tf.truncated_normal(shape=[5,5,512,layer_depth.get('con4')], mean=mu, stddev=sigma), name='conv5_w')
-    conv5 = tf.nn.conv2d(conv4_bn,conv5_w,strides=[1,1,1,1],padding='SAME')
-    conv5 = tf.nn.relu(conv5)
-    conv5 = tf.layers.batch_normalization(conv5)
     #conv5 = tf.nn.dropout(conv5, keep_prob)
     
     
-    # Flatten -> 8*8*128
-    fullc1 = flatten(conv5)
+    # Flatten -> 2*2*512
+    fullc1 = flatten(conv4_bn)
     
     
-    # full1: Fully-connected ~ (2*2*512) -> (128)
-    fullc1_w = tf.Variable(tf.truncated_normal(shape=(2*2*512, layer_depth.get('L1')), mean=mu, stddev=sigma), name='fullc1_w')
+    # full1: Fully-connected ~ (2*2*256) -> (256)
+    fullc1_w = tf.Variable(tf.truncated_normal(shape=(2*2*256, layer_depth.get('L1')), mean=mu, stddev=sigma), name='fullc1_w')
     fullc1_b = tf.Variable(tf.zeros(layer_depth.get('L1')), name='fullc1_b')
     fullc1 = tf.matmul(fullc1, fullc1_w) + fullc1_b
     fullc1 = tf.nn.relu(fullc1)
@@ -95,8 +90,8 @@ def Alexnet(x):
     fullc1 = tf.layers.batch_normalization(fullc1)
     
     
-    # full2: Fully-connected ~ (128) -> (256)
-    fullc2_w = tf.Variable(tf.truncated_normal(shape=(128, layer_depth.get('L2')), mean=mu, stddev=sigma), name='fullc2_w')
+    # full2: Fully-connected ~ (256) -> (128)
+    fullc2_w = tf.Variable(tf.truncated_normal(shape=(256, layer_depth.get('L2')), mean=mu, stddev=sigma), name='fullc2_w')
     fullc2_b = tf.Variable(tf.zeros(layer_depth.get('L2')), name='fullc2_b')
     fullc2 = tf.matmul(fullc1, fullc2_w) + fullc2_b
     fullc2 = tf.nn.relu(fullc2)
@@ -104,15 +99,16 @@ def Alexnet(x):
     fullc2 = tf.layers.batch_normalization(fullc2)
     
     
-    # full3: Fully-connected ~ (256) -> (512)
-    fullc3_w = tf.Variable(tf.truncated_normal(shape=(256, layer_depth.get('L3')), mean=mu, stddev=sigma), name='fullc3_w')
+    # full3: Fully-connected ~ (128) -> (64)
+    fullc3_w = tf.Variable(tf.truncated_normal(shape=(128, layer_depth.get('L3')), mean=mu, stddev=sigma), name='fullc3_w')
     fullc3_b = tf.Variable(tf.zeros(layer_depth.get('L3')), name='fullc3_b')
     fullc3 = tf.matmul(fullc2, fullc3_w) + fullc3_b
     fullc3 = tf.nn.relu(fullc3)
     fullc3 = tf.nn.dropout(fullc3,keep_prob)
     fullc3 = tf.layers.batch_normalization(fullc3)
     
-    fullc4_w = tf.Variable(tf.truncated_normal(shape=(512,10), mean=mu, stddev=sigma), name='fullc4_w')
+
+    fullc4_w = tf.Variable(tf.truncated_normal(shape=(64,10), mean=mu, stddev=sigma), name='fullc4_w')
     fullc4_b = tf.Variable(tf.zeros(10), name='fullc4_b')
     
     # logits
@@ -127,7 +123,7 @@ def loss(y, t):
 
 
 def train_step(loss):
-    optimizer = tf.train.AdamOptimizer(0.001) #이전의 optimizer 와의 차이를 알아야할듯
+    optimizer = tf.train.AdamOptimizer(0.003) #이전의 optimizer 와의 차이를 알아야할듯
     train_step = optimizer.minimize(loss)
     return train_step
 
@@ -146,10 +142,11 @@ if __name__ == '__main__':
     X_train = X_train[0:45000]
     Y_train = Y_train[0:45000]
     # get permuted N train data and epoch,batch
-    n = len(X_train)-10000
+    n = len(X_train)-5000
     N = 30000
-    epochs = 15
+    epochs = 70
     batch_size = 100
+    
     # Set model ========================================================================================================
     x = tf.placeholder(tf.float32, shape=[None, 32, 32, 3]) #RGB 채널 3
     t = tf.placeholder(tf.int32, shape=[None,10])
@@ -183,7 +180,12 @@ if __name__ == '__main__':
             
             sess.run(train_step, feed_dict={x: X_, t: Y_, keep_prob:0.7})           
         
-        val_loss, val_acc = sess.run([loss,accuracy], feed_dict={x: X_valid, t:y_valid_one_hot.eval(session=sess), keep_prob:1.0})
+         
+        val_loss = loss.eval(session=sess, feed_dict={x:X_valid, t: y_valid_one_hot.eval(session=sess), keep_prob:1.0})
+        val_acc = accuracy.eval(session=sess, feed_dict={x:X_valid, t: y_valid_one_hot.eval(session=sess), keep_prob:1.0})
+        
+        
+        #val_loss, val_acc = sess.run([loss,accuracy], feed_dict={x: X_valid, t:y_valid_one_hot.eval(session=sess), keep_prob:1.0})
         print('epoch:', epoch+1, ' loss:', val_loss, ' accuracy:', val_acc)
     # Evaluate accuracy of validation and test datasets
     #val_acc_v = accuracy.eval(session=sess, feed_dict={x: X_validation, t: Y_validation})
