@@ -125,6 +125,8 @@ class SRCNN(object):
 
                     if (ep+1) % 1000 == 0:
                         self.save(config.checkpoint_dir, counter)
+            valid_acc = self.accuracy.eval(session=self.sess, feed_dict={self.images: valid_data, self.labels: valid_label})
+            print(f'Validation set Accuracy: {valid_acc*100:.2f}%')
 
         else:
             print("Testing...")

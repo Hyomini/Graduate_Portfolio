@@ -4,7 +4,7 @@ import tensorflow as tf
 import os
 
 flags = tf.app.flags
-flags.DEFINE_integer("epoch", 2000, "Number of epoch [10000]")
+flags.DEFINE_integer("epoch", 5001, "Number of epoch [10000]")
 flags.DEFINE_integer("batch_size", 128, "The size of batch images [128]")
 flags.DEFINE_integer("image_size", 32, "The size of image to use [32]")
 flags.DEFINE_integer("label_size", 32, "The size of label to produce [32]")
