@@ -8,6 +8,10 @@ from sklearn.utils import shuffle
 import numpy as np
 import tensorflow as tf
 
+# Set random seed for data permutation
+np.random.seed(0)
+# Set random seed for tf.Variable initialization
+tf.set_random_seed(1234)
 
 class SRCNN(object):
 
@@ -17,7 +21,7 @@ class SRCNN(object):
                  label_size=32,
                  batch_size=128,
                  c_dim=1,
-                 keep_prob=0.5,
+                 keep_prob=0.8,
                  checkpoint_dir=None,
                  sample_dir=None):
 
@@ -43,7 +47,7 @@ class SRCNN(object):
         self.labels = tf.placeholder(tf.int32, shape=[None], name='labels')
         self.one_hot = tf.one_hot(self.labels, 10)
 
-        layer_depth = {'L1': 6, 'L2': 16, 'L3': 120, 'L4': 84, 'L5': 10}
+        layer_depth = {'L1': 6, 'L2': 16, 'L3': 128, 'L4': 64, 'L5': 10}
         self.weights = {
             'conv1_w': tf.Variable(
             np.sqrt(2.0 / 32 * 32) * tf.truncated_normal(shape=[5, 5, 1, layer_depth.get('L1')],
@@ -70,7 +74,7 @@ class SRCNN(object):
             'fullc3_b': tf.Variable(tf.zeros(layer_depth.get('L5')), name='fullc3_b')
         }
 
-        self.pred = self.model()
+        self.pred, self.fullc2 = self.model()
 
         # Loss function (MSE)
         self.loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=self.pred, labels=self.one_hot))
@@ -123,20 +127,24 @@ class SRCNN(object):
                         print("Epoch: [%2d], step: [%2d], time: [%4.4f], loss: [%.8f], accuracy: [%.2f%%]" \
                               % ((ep + 1), counter, time.time() - start_time, loss, acc*100))
 
-                    if (ep+1) % 1000 == 0:
-                        self.save(config.checkpoint_dir, counter)
+                    #if (ep+1) % 1000 == 0:
+                        # self.save(config.checkpoint_dir, counter)
+            self.save(config.checkpoint_dir, counter)
+            self.keep_prob = 1.0
             valid_acc = self.accuracy.eval(session=self.sess, feed_dict={self.images: valid_data, self.labels: valid_label})
             print(f'Validation set Accuracy: {valid_acc*100:.2f}%')
 
         else:
             print("Testing...")
+            self.keep_prob = 1.0
+            valid_acc = self.accuracy.eval(session=self.sess,
+                                           feed_dict={self.images: valid_data, self.labels: valid_label})
+            test_acc = self.accuracy.eval(session=self.sess,
+                                          feed_dict={self.images: train_data, self.labels: train_label})
+            print(f'Validation set Accuracy: {valid_acc * 100:.2f}%')
+            print(f'Test set Accuracy: {test_acc * 100:.2f}%')
 
     def model(self):
-        # Hyperparameters
-        mu = 0
-        sigma = 0.1
-        layer_depth = {'L1': 6, 'L2': 16, 'L3': 120, 'L4': 84, 'L5': 10}
-
         # L1: Convolutional ~ (32, 32, 1) -> (28, 28, 6)
         conv1 = tf.nn.conv2d(self.images, self.weights['conv1_w'], strides=[1, 1, 1, 1], padding='VALID') + self.biases['conv1_b']
         conv1 = tf.nn.relu(conv1)
@@ -168,7 +176,7 @@ class SRCNN(object):
         # logits(outputs): 입력데이터를 네트워크에서 feed-forward를 통해 나온 결과물
         logits = tf.matmul(fullc2, self.weights['fullc3_w']) + self.biases['fullc3_b']
 
-        return logits
+        return logits, fullc2
 
     def save(self, checkpoint_dir, step):
         model_name = "Mnist.model"

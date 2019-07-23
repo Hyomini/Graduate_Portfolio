@@ -196,7 +196,7 @@ for label in range(num_labels):
         v = np.reshape(mu_hat[label], (num_neurons, 1))
         temp += np.matmul((u - v), (u - v).T)
 sigma_hat = temp / N
-#print(np.linalg.det(sigma_hat))
+print(np.linalg.det(sigma_hat))
 
 # Calculate distance of training sample in each label's distribution ---------------------------------------------------
 temp = [None]*num_labels

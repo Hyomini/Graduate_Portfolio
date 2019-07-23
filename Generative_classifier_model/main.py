@@ -4,13 +4,13 @@ import tensorflow as tf
 import os
 
 flags = tf.app.flags
-flags.DEFINE_integer("epoch", 5001, "Number of epoch [10000]")
+flags.DEFINE_integer("epoch", 51, "Number of epoch [10000]")
 flags.DEFINE_integer("batch_size", 128, "The size of batch images [128]")
 flags.DEFINE_integer("image_size", 32, "The size of image to use [32]")
 flags.DEFINE_integer("label_size", 32, "The size of label to produce [32]")
-flags.DEFINE_float("learning_rate", 1e-5, "The learning rate of gradient descent algorithm [1e-4]")
+flags.DEFINE_float("learning_rate", 1e-3, "The learning rate of gradient descent algorithm [1e-4]")
 flags.DEFINE_integer("c_dim", 1, "Dimension of image color. [1]")
-flags.DEFINE_float("keep_prob", 0.5, "Drop out rate")
+flags.DEFINE_float("keep_prob", 0.8, "Drop out rate")
 flags.DEFINE_integer("scale", 2, "The size of scale factor for preprocessing input image [2]")
 flags.DEFINE_integer("stride", 14, "The size of stride to apply input image [14]")
 flags.DEFINE_string("checkpoint_dir", "checkpoint", "Name of checkpoint directory [checkpoint]")
