@@ -1,2 +1,2 @@
-model_checkpoint_path: "Mnist.model-11934"
-all_model_checkpoint_paths: "Mnist.model-11934"
+model_checkpoint_path: "Mnist.model-5850"
+all_model_checkpoint_paths: "Mnist.model-5850"

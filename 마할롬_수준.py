@@ -66,14 +66,14 @@ def lenet(x):
     fullc2_w = tf.Variable(np.sqrt(2.0/120)*tf.truncated_normal(shape=(layer_depth.get('L3'), layer_depth.get('L4')), mean=mu, stddev=sigma), name='fullc2_w')
     fullc2_b = tf.Variable(tf.zeros(layer_depth.get('L4')), name='fullc2_b')
     fullc2 = tf.matmul(fullc1, fullc2_w) + fullc2_b
-    fullc2 = tf.nn.relu(fullc2)
-    fullc2 = tf.nn.dropout(fullc2, keep_prob)
+    fullc2_ = tf.nn.relu(fullc2)
+    fullc2_ = tf.nn.dropout(fullc2_, keep_prob)
 
     # L5: Fully-connected ~ (64) -> (10)
     fullc3_w = tf.Variable(tf.truncated_normal(shape=(layer_depth.get('L4'), layer_depth.get('L5')), mean=mu, stddev=sigma), name='fullc3_w')
     fullc3_b = tf.Variable(tf.zeros(layer_depth.get('L5')), name='fullc3_b')
     # logits(outputs): 입력데이터를 네트워크에서 feed-forward를 통해 나온 결과물
-    logits = tf.matmul(fullc2, fullc3_w) + fullc3_b
+    logits = tf.matmul(fullc2_, fullc3_w) + fullc3_b
 
     return logits
 
@@ -127,7 +127,7 @@ if __name__ == '__main__':
 
     # Train and evaluate model =========================================================================================
     # 1.Store(Train) ---------------------------------------------------------------------------------------------------
-    '''   
+    '''
     init = tf.global_variables_initializer()
     saver = tf.train.Saver()
     sess = tf.Session()
@@ -166,117 +166,117 @@ if __name__ == '__main__':
     print()
     # (epochs, batch_size, keep_drop) = (25, 200, 0.8) 일 때, (validation accuracy, test accuracy) = (0.9892, 0.9891)
 
-
-# Generative classifier ================================================================================================
-# Data(N = 30000, data[i][j] = (j+1)th data of label i): get f(x[i]) and append distinguished by label -----------------
-label_x = np.array(sess.run(tf.argmax(y, 1), feed_dict={x: X_train, keep_prob: 1.0}))                  # label of data x
-f_x = np.array(sess.run(fullc2, feed_dict={x: X_train, keep_prob: 1.0}))          # output of the hidden layer of data x
-num_labels = 10                                                                                   # number of labels: 10
-num_neurons = len(f_x[0])                                            # number of neurons(dimensions) in the hidden layer
-temp = [None]*num_labels
-for label in range(num_labels):
-    temp[label] = list()
-for label in range(N):
-    temp[label_x[label]].append(f_x[label])
-data = np.array(temp)
-
-# Mu_hat(mean vector for each label, mu_hat[i] = mean vector of label i): get data and calculate mean in each label ----
-temp = [np.zeros(num_neurons)]*num_labels
-for label in range(num_labels):
-    temp[label] = np.mean(data[label], axis=0)
-mu_hat = np.array(temp)
-
-# Sigma_hat(tied covariance for mahalanobis distance): do outer product and sum it up and divide it by N ---------------
-temp = np.zeros((num_neurons, num_neurons))
-for label in range(num_labels):
-    for datum in data[label]:
-        u = np.reshape(datum, (num_neurons, 1))
-        v = np.reshape(mu_hat[label], (num_neurons, 1))
-        temp += np.matmul((u - v), (u - v).T)
-sigma_hat = temp / N
-#print(np.linalg.det(sigma_hat))
-
-# Calculate distance of training sample in each label's distribution ---------------------------------------------------
-temp = [None]*num_labels
-for label in range(num_labels):
-    temp[label] = list()
-for label in range(num_labels):
-    for datum in data[label]:
-        u = np.reshape(datum, (1, num_neurons))
-        v = np.reshape(mu_hat[label], (1, num_neurons))
-        #temp[label].append(distance.euclidean(u, v, None) ** 2)
-        temp[label].append(distance.mahalanobis(u, v, np.linalg.inv(sigma_hat))**2)
-#e_dist_data = np.array(temp)
-m_dist_data = np.array(temp)
-
-# Set distance threshold for detecting OOD in each label ------------------------------------------------------------
-temp = [None]*num_labels
-for label in range(num_labels):
-    temp[label] = list()
-for label in range(num_labels):
-    #temp[label].append(np.percentile(e_dist_data[label], 95, interpolation='linear'))
-    temp[label].append(np.percentile(m_dist_data[label], 95, interpolation='linear'))
-#e_dist_threshold = np.array(temp)
-m_dist_threshold = np.array(temp)
-print("<OOD threshold of distance of penultimate logits in each label>")
-print(m_dist_threshold, end='\n')
-
-# Show histogram for each label's distance distribution ----------------------------------------------------------------
-'''
-for label in range(10):
-    data = np.sort(m_dist_data[label])
-    bins = np.arange(0, 300, 2)
-    plt.hist(data, bins, normed=True)
-    plt.title("label: %d" % label)
-    plt.xlabel('distance', fontsize=15)
-    plt.ylabel('num of data', fontsize=15)
-    plt.show(block=True)
-'''
-
-# Show grey image of a random test data and classify it by Mahalanobis classifier --------------------------------------
-X_test_f_x = sess.run(fullc2, feed_dict={x: X_test, keep_prob: 1.0})
-random_idx = 0
-random_data = X_test[random_idx]
-random_data_f_x = X_test_f_x[random_idx]
-plt.figure(figsize=(5, 5))
-plt.imshow(np.reshape(random_data, [32, 32]), cmap='Greys')
-plt.show()
-temp = [None]*num_labels
-for label in range(num_labels):
-    temp[label] = list()
-    u = np.reshape(random_data_f_x, (1, num_neurons))
-    v = np.reshape(mu_hat[label], (1, num_neurons))
-    temp[label].append(distance.mahalanobis(u, v, np.linalg.inv(sigma_hat))**2)
-dist_to_each_label_mean = np.array(temp)
-print('<Mahalanobis distance of the image from each label\'s mean in penultimate logits>')
-print(dist_to_each_label_mean)
-print()
-idx = np.argmin(dist_to_each_label_mean, 0)                                               # find the nearest label index
-if dist_to_each_label_mean[idx] >= m_dist_threshold[idx]:                                       # and check if it is OOD
-    print('The image is classified to \'OOD\' by Mahalanobis distance classifier', end='\n')
-else:
-    print('The image is classified to \'' + str(int(idx)) + '\' by Mahalanobis distance classifier', end='\n')
-
-# Test the accuracy of Mahalanobis classifier using test dataset(일단은 OOD 생각하지않고 가장 가까운 class로 분류) ---------
-N = len(X_test)
-X_test_f_x = sess.run(fullc2, feed_dict={x: X_test, keep_prob: 1.0})
-X_test_y = np.array(range(N))
-X_test_t = Y_test
-for i in range(N):
-    temp = [None]*num_labels
+    # Generative classifier ================================================================================================
+    # Data(N = 30000, data[i][j] = (j+1)th data of label i): get f(x[i]) and append distinguished by label -----------------
+    label_x = np.array(sess.run(tf.argmax(y, 1), feed_dict={x: X_train, keep_prob: 1.0}))  # label of data x
+    f_x = np.array(sess.run(fullc2, feed_dict={x: X_train, keep_prob: 1.0}))  # output of the hidden layer of data x
+    num_labels = 10  # number of labels: 10
+    num_neurons = len(f_x[0])  # number of neurons(dimensions) in the hidden layer
+    temp = [None] * num_labels
     for label in range(num_labels):
         temp[label] = list()
-        u = np.reshape(X_test_f_x[i], (1, num_neurons))
+    for label in range(N):
+        temp[label_x[label]].append(f_x[label])
+    data = np.array(temp)
+
+    # Mu_hat(mean vector for each label, mu_hat[i] = mean vector of label i): get data and calculate mean in each label ----
+    temp = [np.zeros(num_neurons)] * num_labels
+    for label in range(num_labels):
+        temp[label] = np.mean(data[label], axis=0)
+    mu_hat = np.array(temp)
+
+    # Sigma_hat(tied covariance for mahalanobis distance): do outer product and sum it up and divide it by N ---------------
+    temp = np.zeros((num_neurons, num_neurons))
+    for label in range(num_labels):
+        for datum in data[label]:
+            u = np.reshape(datum, (num_neurons, 1))
+            v = np.reshape(mu_hat[label], (num_neurons, 1))
+            temp += np.matmul((u - v), (u - v).T)
+    sigma_hat = temp / N
+    # print(np.linalg.det(sigma_hat))
+
+    # Calculate distance of training sample in each label's distribution ---------------------------------------------------
+    temp = [None] * num_labels
+    for label in range(num_labels):
+        temp[label] = list()
+    for label in range(num_labels):
+        for datum in data[label]:
+            u = np.reshape(datum, (1, num_neurons))
+            v = np.reshape(mu_hat[label], (1, num_neurons))
+            # temp[label].append(distance.euclidean(u, v, None) ** 2)
+            temp[label].append(distance.mahalanobis(u, v, np.linalg.inv(sigma_hat)) ** 2)
+    # e_dist_data = np.array(temp)
+    m_dist_data = np.array(temp)
+
+    # Set distance threshold for detecting OOD in each label ------------------------------------------------------------
+    temp = [None] * num_labels
+    for label in range(num_labels):
+        temp[label] = list()
+    for label in range(num_labels):
+        # temp[label].append(np.percentile(e_dist_data[label], 95, interpolation='linear'))
+        temp[label].append(np.percentile(m_dist_data[label], 95, interpolation='linear'))
+    # e_dist_threshold = np.array(temp)
+    m_dist_threshold = np.array(temp)
+    print("<OOD threshold of distance of penultimate logits in each label>")
+    print(m_dist_threshold, end='\n')
+
+    # Show histogram for each label's distance distribution ----------------------------------------------------------------
+    '''
+    for label in range(10):
+        data = np.sort(m_dist_data[label])
+        bins = np.arange(0, 300, 2)
+        plt.hist(data, bins, normed=True)
+        plt.title("label: %d" % label)
+        plt.xlabel('distance', fontsize=15)
+        plt.ylabel('num of data', fontsize=15)
+        plt.show(block=True)
+    '''
+
+    # Show grey image of a random test data and classify it by Mahalanobis classifier --------------------------------------
+    X_test_f_x = sess.run(fullc2, feed_dict={x: X_test, keep_prob: 1.0})
+    random_idx = 1
+    random_data = X_test[random_idx]
+    random_data_f_x = X_test_f_x[random_idx]
+    plt.figure(figsize=(5, 5))
+    plt.imshow(np.reshape(random_data, [32, 32]), cmap='Greys')
+    plt.show()
+    temp = [None] * num_labels
+    for label in range(num_labels):
+        temp[label] = list()
+        u = np.reshape(random_data_f_x, (1, num_neurons))
         v = np.reshape(mu_hat[label], (1, num_neurons))
-        temp[label].append(distance.mahalanobis(u, v, np.linalg.inv(sigma_hat))**2)
+        temp[label].append(distance.mahalanobis(u, v, np.linalg.inv(sigma_hat)) ** 2)
     dist_to_each_label_mean = np.array(temp)
-    idx = np.argmin(dist_to_each_label_mean, 0)                                           # find the nearest label index
-    X_test_y[i] = idx                                                          # and classify it without considering OOD
-cnt = 0
-acc = 0.0
-for i in range(N):
-    if X_test_y[i] == X_test_t[i]:
-        cnt = cnt + 1
-acc = cnt/N
-print("마할라노비스분류기수준 ㅋ:")
-print(acc, end='\n')
+    print('<Mahalanobis distance of the image from each label\'s mean in penultimate logits>')
+    print(dist_to_each_label_mean)
+    print()
+    idx = np.argmin(dist_to_each_label_mean, 0)  # find the nearest label index
+    if dist_to_each_label_mean[idx] >= m_dist_threshold[idx]:  # and check if it is OOD
+        print('The image is classified to \'OOD\' by Mahalanobis distance classifier', end='\n')
+    else:
+        print('The image is classified to \'' + str(int(idx)) + '\' by Mahalanobis distance classifier', end='\n')
+
+    # Test the accuracy of Mahalanobis classifier using test dataset(일단은 OOD 생각하지않고 가장 가까운 class로 분류) ---------
+    N = len(X_test)
+    X_test_f_x = sess.run(fullc2, feed_dict={x: X_test, keep_prob: 1.0})
+    X_test_y = np.array(range(N))
+    X_test_t = Y_test
+    for i in range(N):
+        temp = [None] * num_labels
+        for label in range(num_labels):
+            temp[label] = list()
+            u = np.reshape(X_test_f_x[i], (1, num_neurons))
+            v = np.reshape(mu_hat[label], (1, num_neurons))
+            temp[label].append(distance.mahalanobis(u, v, np.linalg.inv(sigma_hat)) ** 2)
+        dist_to_each_label_mean = np.array(temp)
+        idx = np.argmin(dist_to_each_label_mean, 0)  # find the nearest label index
+        X_test_y[i] = idx  # and classify it without considering OOD
+    cnt = 0
+    acc = 0.0
+    for i in range(N):
+        if X_test_y[i] == X_test_t[i]:
+            cnt = cnt + 1
+    acc = cnt / N
+    print("마할라노비스분류기수준 ㅋ:")
+    print(acc, end='\n')
+
