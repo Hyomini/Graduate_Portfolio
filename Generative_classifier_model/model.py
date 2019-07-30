@@ -304,6 +304,7 @@ class SRCNN(object):
         print(f'Mahalanobis distance average calculation time:{(mahala_sum/20):f}s')
         print(f'Euclidean distance average calculation time:{(euc_sum / 20):f}s')
 
+        """
         # Plot line(mahalanobis & euclidean calculation time)
         plt.title("Time Comparison(mnist test set) - on GPU")
         plt.xlabel('Iteration')
@@ -312,6 +313,7 @@ class SRCNN(object):
         plt.plot(x_axis, euc_axis, c="b", label="euclidean")
         plt.legend(loc=5)
         plt.show()
+        """
 
         '''
         # Set distance threshold for detecting OOD in each label ------------------------------------------------------------
