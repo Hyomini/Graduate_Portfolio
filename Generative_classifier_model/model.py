@@ -302,6 +302,8 @@ class SRCNN(object):
 
         # Plot line(mahalanobis & euclidean calculation time)
         plt.title("Time Comparison(mnist test set) - on GPU")
+        plt.xlabel('Iteration')
+        plt.ylabel('Time')
         plt.plot(x_axis, mahala_axis, c="r", label="mahalanobis")
         plt.plot(x_axis, euc_axis, c="b", label="euclidean")
         plt.legend(loc=5)
