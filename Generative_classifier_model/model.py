@@ -258,6 +258,12 @@ class SRCNN(object):
         sigma_hat = temp / 30000 # 수정필요
         #print(np.linalg.det(sigma_hat))
 
+        x_axis = list(range(1,21))
+        mahala_axis = list()
+        euc_axis = list()
+        mahala_sum = 0
+        euc_sum = 0
+
         for ite in range(20):
             # Calculate distance of training sample in each label's distribution ---------------------------------------------------
             euc_temp = [None] * num_labels
@@ -273,8 +279,10 @@ class SRCNN(object):
                     v = np.reshape(mu_hat[label], (1, num_neurons))
                     mahala_temp[label].append(distance.mahalanobis(u, v, np.linalg.inv(sigma_hat)) ** 2)
             m_dist_data = np.array(mahala_temp)  # [0] ~ [9]
-            print()
-            print(f'Mahalanobis Distance Calculation Time:{(time.time() - mahal_time):.2f}s')
+            time_temp = time.time() - mahal_time
+            mahala_axis.append(time_temp)
+            mahala_sum += time_temp
+            # print(f'Mahalanobis Distance Calculation Time:{(time.time() - mahal_time):.2f}s')
 
             euc_time = time.time()
             for label in range(num_labels):
@@ -283,7 +291,21 @@ class SRCNN(object):
                     v = np.reshape(mu_hat[label], (1, num_neurons))
                     euc_temp[label].append(distance.euclidean(u, v, None) ** 2)
             e_dist_data = np.array(euc_temp)  # [0] ~ [9]
-            print(f'Euclidean Distance Calculation Time:{(time.time() - euc_time):.2f}s')
+            time_temp = time.time() - euc_time
+            euc_axis.append(time_temp)
+            euc_sum += time_temp
+            # print(f'Euclidean Distance Calculation Time:{(time.time() - euc_time):.2f}s')
+
+        # Average time
+        print(f'Mahalanobis distance average calculation time:{(mahala_sum/20):f}s')
+        print(f'Euclidean distance average calculation time:{(euc_sum / 20):f}s')
+
+        # Plot line(mahalanobis & euclidean calculation time)
+        plt.title("Time Comparison(mnist test set) - on GPU")
+        plt.plot(x_axis, mahala_axis, c="r", label="mahalanobis")
+        plt.plot(x_axis, euc_axis, c="b", label="euclidean")
+        plt.legend(loc=5)
+        plt.show()
 
         '''
         # Set distance threshold for detecting OOD in each label ------------------------------------------------------------
