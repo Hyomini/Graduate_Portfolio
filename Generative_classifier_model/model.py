@@ -264,8 +264,9 @@ class SRCNN(object):
         euc_axis = list()
         mahala_sum = 0
         euc_sum = 0
+        iteration = 20
 
-        for ite in range(20):
+        for ite in range(iteration):
             # Calculate distance of training sample in each label's distribution ---------------------------------------------------
             euc_temp = [None] * num_labels
             mahala_temp = [None] * num_labels
@@ -304,7 +305,6 @@ class SRCNN(object):
         print(f'Mahalanobis distance average calculation time:{(mahala_sum/20):f}s')
         print(f'Euclidean distance average calculation time:{(euc_sum / 20):f}s')
 
-        # Plot line(mahalanobis & euclidean calculation time)
         make_plot(x_axis, mahala_axis, euc_axis)
 
         '''
