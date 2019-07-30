@@ -220,6 +220,11 @@ class SRCNN(object):
 
         f_x = np.array(self.sess.run(fullc2, feed_dict={self.images: train_data, self.keep_prob: 1.0
                                                         }))  # output of the hidden layer of data x
+
+        label_test = np.array(self.sess.run(tf.argmax(self.pred, 1),
+                                         feed_dict={self.images: train_data, self.keep_prob: 1.0}))  # label of data x
+        test_f_x = self.sess.run(fullc2, feed_dict={self.images: test_data, self.keep_prob: 1.0}) # output of the hidden layer of test_data
+
         num_labels = 10  # number of labels: 10
         num_neurons = self.layer_depth.get('L4')  # number of neurons(dimensions) in the hidden layer(64)
         temp_penult = [None] * num_labels
@@ -228,6 +233,14 @@ class SRCNN(object):
         for data_num in range(len(train_data)):
             temp_penult[label_x[data_num]].append(f_x[data_num])
         penultimate_data = np.array(temp_penult)  # penultimate_data[0] ~ [9]까지 각각 레이블에 상응하는 penultimate layer의 값들이 들어있음
+
+        # test_data fx
+        temp_penult = [None] * num_labels
+        for label in range(num_labels):
+            temp_penult[label] = list()
+        for data_num in range(len(test_data)):
+            temp_penult[label_test[data_num]].append(test_f_x[data_num])
+        penultimate_test_data = np.array(temp_penult)
 
         # Mu_hat(mean vector for each label, mu_hat[i] = mean vector of label i): get data and calculate mean in each label ----
         temp_mu = [np.zeros(num_neurons)] * num_labels
@@ -245,31 +258,33 @@ class SRCNN(object):
         sigma_hat = temp / 30000 # 수정필요
         #print(np.linalg.det(sigma_hat))
 
-        # Calculate distance of training sample in each label's distribution ---------------------------------------------------
-        euc_temp = [None] * num_labels
-        mahala_temp = [None] * num_labels
+        for ite in range(20):
+            # Calculate distance of training sample in each label's distribution ---------------------------------------------------
+            euc_temp = [None] * num_labels
+            mahala_temp = [None] * num_labels
+            for label in range(num_labels):
+                euc_temp[label] = list()
+                mahala_temp[label] = list()
 
-        for label in range(num_labels):
-            euc_temp[label] = list()
-            mahala_temp[label] = list()
-        mahal_time = time.time()
-        for label in range(num_labels):
-            for datum in penultimate_data[label]:
-                u = np.reshape(datum, (1, num_neurons))
-                v = np.reshape(mu_hat[label], (1, num_neurons))
-                mahala_temp[label].append(distance.mahalanobis(u, v, np.linalg.inv(sigma_hat)) ** 2)
-        m_dist_data = np.array(mahala_temp)  # [0] ~ [9]
-        print()
-        print(f'Mahalanobis Distance Calculation Time:{(time.time() - mahal_time):.2f}s')
+            mahal_time = time.time()
+            for label in range(num_labels):
+                for datum in penultimate_test_data[label]:
+                    u = np.reshape(datum, (1, num_neurons))
+                    v = np.reshape(mu_hat[label], (1, num_neurons))
+                    mahala_temp[label].append(distance.mahalanobis(u, v, np.linalg.inv(sigma_hat)) ** 2)
+            m_dist_data = np.array(mahala_temp)  # [0] ~ [9]
+            print()
+            print(f'Mahalanobis Distance Calculation Time:{(time.time() - mahal_time):.2f}s')
 
-        euc_time = time.time()
-        for label in range(num_labels):
-            for datum in penultimate_data[label]:
-                u = np.reshape(datum, (1, num_neurons))
-                v = np.reshape(mu_hat[label], (1, num_neurons))
-                euc_temp[label].append(distance.euclidean(u, v, None) ** 2)
-        e_dist_data = np.array(euc_temp)  # [0] ~ [9]
-        print(f'Euclidean Distance Calculation Time:{(time.time() - euc_time):.2f}s')
+            euc_time = time.time()
+            for label in range(num_labels):
+                for datum in penultimate_test_data[label]:
+                    u = np.reshape(datum, (1, num_neurons))
+                    v = np.reshape(mu_hat[label], (1, num_neurons))
+                    euc_temp[label].append(distance.euclidean(u, v, None) ** 2)
+            e_dist_data = np.array(euc_temp)  # [0] ~ [9]
+            print(f'Euclidean Distance Calculation Time:{(time.time() - euc_time):.2f}s')
+
         '''
         # Set distance threshold for detecting OOD in each label ------------------------------------------------------------
         e_thres_temp = [None] * num_labels
@@ -290,11 +305,11 @@ class SRCNN(object):
         # Show grey image of a random test data and classify it by Mahalanobis classifier --------------------------------------
 
         # penultimate layer values of test images
-        X_test_f_x = self.sess.run(fullc2, feed_dict={self.images: test_data, self.keep_prob: 1.0})
+        test_f_x = self.sess.run(fullc2, feed_dict={self.images: test_data, self.keep_prob: 1.0})
         
         for random_idx in range(len(test_data)):
             random_data = test_data[random_idx]
-            random_data_f_x = X_test_f_x[random_idx]
+            random_data_f_x = test_f_x[random_idx]
 
             temp = [None] * num_labels
             for label in range(num_labels):
@@ -321,7 +336,7 @@ class SRCNN(object):
             temp = [None] * num_labels
             for label in range(num_labels):
                 temp[label] = list()
-                u = np.reshape(X_test_f_x[i], (1, num_neurons))
+                u = np.reshape(test_f_x[i], (1, num_neurons))
                 v = np.reshape(mu_hat[label], (1, num_neurons))
                 temp[label].append(distance.mahalanobis(u, v, np.linalg.inv(sigma_hat)) ** 2)
             dist_to_each_label_mean = np.array(temp)
@@ -343,7 +358,7 @@ class SRCNN(object):
             temp = [None] * num_labels
             for label in range(num_labels):
                 temp[label] = list()
-                u = np.reshape(X_test_f_x[i], (1, num_neurons))
+                u = np.reshape(test_f_x[i], (1, num_neurons))
                 v = np.reshape(mu_hat[label], (1, num_neurons))
                 temp[label].append(distance.euclidean(u, v, None) ** 2)
             dist_to_each_label_mean = np.array(temp)
