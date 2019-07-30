@@ -259,11 +259,12 @@ class SRCNN(object):
         sigma_hat = temp / 30000 # 수정필요
         #print(np.linalg.det(sigma_hat))
 
-        x_axis = list(range(1,21))
         mahala_axis = list()
         euc_axis = list()
         mahala_sum = 0
         euc_sum = 0
+        iteration = 20
+        x_axis = list(range(1, iteration+1))
 
         for ite in range(iteration):
             # Calculate distance of training sample in each label's distribution ---------------------------------------------------
