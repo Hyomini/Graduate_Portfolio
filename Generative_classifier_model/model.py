@@ -264,7 +264,6 @@ class SRCNN(object):
         euc_axis = list()
         mahala_sum = 0
         euc_sum = 0
-        iteration = 20
 
         for ite in range(iteration):
             # Calculate distance of training sample in each label's distribution ---------------------------------------------------
