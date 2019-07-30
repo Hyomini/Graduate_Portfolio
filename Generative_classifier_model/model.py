@@ -1,4 +1,5 @@
 from data import input_setup
+from plot import make_plot
 
 import time
 import os
@@ -296,18 +297,15 @@ class SRCNN(object):
             euc_sum += time_temp
             # print(f'Euclidean Distance Calculation Time:{(time.time() - euc_time):.2f}s')
 
+        mahala_axis = np.array(mahala_axis)
+        euc_axis = np.array(euc_axis)
+
         # Average time
         print(f'Mahalanobis distance average calculation time:{(mahala_sum/20):f}s')
         print(f'Euclidean distance average calculation time:{(euc_sum / 20):f}s')
 
         # Plot line(mahalanobis & euclidean calculation time)
-        plt.title("Time Comparison(mnist test set) - on GPU")
-        plt.xlabel('Iteration')
-        plt.ylabel('Time')
-        plt.plot(x_axis, mahala_axis, c="r", label="mahalanobis")
-        plt.plot(x_axis, euc_axis, c="b", label="euclidean")
-        plt.legend(loc=5)
-        plt.show()
+        make_plot(x_axis, mahala_axis, euc_axis)
 
         '''
         # Set distance threshold for detecting OOD in each label ------------------------------------------------------------
