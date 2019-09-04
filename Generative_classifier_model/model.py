@@ -274,17 +274,8 @@ class SRCNN(object):
                 euc_temp[label] = list()
                 mahala_temp[label] = list()
 
-            mahal_time = time.time()
-            for label in range(num_labels):
-                for datum in penultimate_test_data[label]:
-                    u = np.reshape(datum, (1, num_neurons))
-                    v = np.reshape(mu_hat[label], (1, num_neurons))
-                    mahala_temp[label].append(distance.mahalanobis(u, v, np.linalg.inv(sigma_hat)) ** 2)
-            m_dist_data = np.array(mahala_temp)  # [0] ~ [9]
-            time_temp = time.time() - mahal_time
-            mahala_axis.append(time_temp)
-            mahala_sum += time_temp
-            # print(f'Mahalanobis Distance Calculation Time:{(time.time() - mahal_time):.2f}s')
+
+            # print(f'Mahalanobis Distance Computation Time:{(time.time() - mahal_time):.2f}s')
 
             euc_time = time.time()
             for label in range(num_labels):
@@ -296,7 +287,19 @@ class SRCNN(object):
             time_temp = time.time() - euc_time
             euc_axis.append(time_temp)
             euc_sum += time_temp
-            # print(f'Euclidean Distance Calculation Time:{(time.time() - euc_time):.2f}s')
+            # print(f'Euclidean Distance Computation Time:{(time.time() - euc_time):.2f}s')
+
+            X=np.linalg.inv(sigma_hat)
+            mahal_time = time.time()
+            for label in range(num_labels):
+                for datum in penultimate_test_data[label]:
+                    u = np.reshape(datum, (1, num_neurons))
+                    v = np.reshape(mu_hat[label], (1, num_neurons))
+                    mahala_temp[label].append(distance.mahalanobis(u, v, X) ** 2)
+            m_dist_data = np.array(mahala_temp)  # [0] ~ [9]
+            time_temp = time.time() - mahal_time
+            mahala_axis.append(time_temp)
+            mahala_sum += time_temp
 
         mahala_axis = np.array(mahala_axis)
         euc_axis = np.array(euc_axis)

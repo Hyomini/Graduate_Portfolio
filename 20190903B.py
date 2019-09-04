@@ -196,7 +196,7 @@ for label in range(num_of_labels):
     plt.title('K-mean plot')
     plt.xlabel('x')
     plt.ylabel('y')
-    plt.show()
+    #plt.show()
     data_frame = np.array(data_frame)
     for i in range(len(data[label])):
         temp[k * label + int(data_frame[i][2])].append(data[label][i])
@@ -258,7 +258,7 @@ for label in range(num_of_labels):
 
 ########################################################################################################################
 # TPR on in-distribution(MNIST test dataset) ---------------------------------------------------------------------------
-threshold = 0                                       # threshold variable for Mahalanobis distance-based confidence score
+threshold = -2.5                                       # threshold variable for Mahalanobis distance-based confidence score
 ood_index = -1                                                             # giving label -1 to out-of-distribution data
 N_test = len(X_test)                                                                                             # 10000
 f_of_x_test = np.array(sess.run(fullc2, feed_dict={x: X_test, keep_prob: 1.0}))

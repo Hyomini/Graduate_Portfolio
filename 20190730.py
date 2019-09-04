@@ -299,8 +299,9 @@ print(in_distribution_accuracy, end='\n')
 chosen_label = 1                                                                                                 # 0 ~ 9
 for i in range(N):
     if label_of_X_test[i] == chosen_label + 10:
-        print("target: %f label: %f mahalanobis_dist_data: %f"
-              % (target_label_of_X_test, label_of_X_test[i], mahalanobis_dist_data[i]))
+        #print(f'target: {target_label_of_X_test[i]}  label:{label_of_X_test[i]}  mahalanobis distance:{mahalanobis_dist_data[i]}')
+        #print("target: %f label: %f mahalanobis_dist_data: %f"
+              #% (target_label_of_X_test, label_of_X_test[i], mahalanobis_dist_data[i]))
         # plt.title("Mahalanobis distance to the label(%f)'s mean: %f" % (label_of_X_test[i], mahalanobis_dist_data[i]))
         plt.figure(figsize=(5, 5))
         plt.imshow(np.reshape(X_test[i], [32, 32]), cmap='Greys')
