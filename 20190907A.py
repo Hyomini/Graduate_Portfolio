@@ -82,6 +82,21 @@ def train_step(loss):
 def accuracy(y, t):
     return tf.reduce_mean(tf.cast(tf.equal(tf.argmax(y, 1), tf.argmax(t, 1)), tf.float32))
 
+def get_Mu_hat(data, num_neurons, num_labels):
+    mu_hat = [np.zeros(num_neurons)] * num_labels
+    for label in range(num_labels):
+        mu_hat[label] = np.mean(data[label], axis=0)
+    return mu_hat
+
+def get_Sigma_hat(data, mu_hat, num_neurons, num_labels, num_data):
+    sigma_hat = np.zeros([num_neurons, num_neurons])
+    for label in range(num_labels):
+        for datum in data[label]:
+            u = np.reshape(datum, (num_neurons, 1))
+            v = np.reshape(mu_hat[label], (num_neurons, 1))
+            sigma_hat += np.matmul((u - v), (u - v).T)
+    sigma_hat /= num_data
+    return sigma_hat
 
 if __name__ == '__main__':
     # Getting data =====================================================================================================
@@ -177,19 +192,13 @@ for i in range(N):
     temp[label_of_x[i]].append(f_of_x[i])
 data = np.array(temp)                                             # changing the list to numpy array for numpy operation
 
+
+
 # Mu_hat(mean vector for each label, mu_hat[j] = mean of f(x[i]) in label j): calculating mean of the data in each label
-mu_hat = [np.zeros(num_of_neurons)] * num_of_labels
-for label in range(num_of_labels):
-    mu_hat[label] = np.mean(data[label], axis=0)
+mu_hat = get_Mu_hat(data, num_of_neurons, num_of_labels)
 
 # Sigma_hat(tied covariance of the distribution of f(x[i]): applying outer-product to all data and calculate the mean --
-sigma_hat = np.zeros([num_of_neurons, num_of_neurons])
-for label in range(num_of_labels):
-    for datum in data[label]:
-        u = np.reshape(datum, (num_of_neurons, 1))
-        v = np.reshape(mu_hat[label], (num_of_neurons, 1))
-        sigma_hat += np.matmul((u - v), (u - v).T)
-sigma_hat = sigma_hat / N
+sigma_hat = get_Sigma_hat(data, mu_hat, num_of_neurons, num_of_labels, N)
 
 # M_dist_data(m_dist_data[j][k]: (k+1)th Mahalanobis distance data of label j) -----------------------------------------
 temp = [None] * num_of_labels

@@ -210,6 +210,31 @@ class SRCNN(object):
         else:
             return False
 
+    def get_Mu_hat(self, data, num_neurons, num_labels):
+        mu_hat = [np.zeros(num_neurons)] * num_labels
+        for label in range(num_labels):
+            mu_hat[label] = np.mean(data[label], axis=0)
+        return mu_hat
+
+    def get_Sigma_hat(self, data, mu_hat, num_neurons, num_labels, num_data):
+        sigma_hat = np.zeros([num_neurons, num_neurons])
+        for label in range(num_labels):
+            for datum in data[label]:
+                u = np.reshape(datum, (num_neurons, 1))
+                v = np.reshape(mu_hat[label], (num_neurons, 1))
+                sigma_hat += np.matmul((u - v), (u - v).T)
+        sigma_hat /= num_data
+        return sigma_hat
+
+    def Cal_mahalanobis_max(self, m_dist_data, num_labels):
+        temp = [None] * num_labels
+        for label in range(num_labels):
+            temp[label] = list()
+        for label in range(num_labels):
+            temp[label].append(np.percentile(m_dist_data[label], 100, interpolation='linear'))
+        m_max = np.array(temp)
+        return m_max
+
     def Cal_Distance(self, test_data, test_label, config):
         # Generative classifier =======================================================================================
         # Data(N = 30000, data[i][j] = (j+1)th data of label i): get f(x[i]) and append distinguished by label --------
@@ -226,6 +251,7 @@ class SRCNN(object):
                                          feed_dict={self.images: train_data, self.keep_prob: 1.0}))  # label of data x
         test_f_x = self.sess.run(fullc2, feed_dict={self.images: test_data, self.keep_prob: 1.0}) # output of the hidden layer of test_data
 
+        N = len(train_data)
         num_labels = 10  # number of labels: 10
         num_neurons = self.layer_depth.get('L4')  # number of neurons(dimensions) in the hidden layer(64)
         temp_penult = [None] * num_labels
@@ -243,72 +269,95 @@ class SRCNN(object):
             temp_penult[label_test[data_num]].append(test_f_x[data_num])
         penultimate_test_data = np.array(temp_penult)
 
-        # Mu_hat(mean vector for each label, mu_hat[i] = mean vector of label i): get data and calculate mean in each label ----
-        temp_mu = [np.zeros(num_neurons)] * num_labels
+        # Mu_hat(mean vector for each label, mu_hat[j] = mean of f(x[i]) in label j): calculating mean of the data in each label
+        mu_hat = self.get_Mu_hat(penultimate_data, num_neurons, num_labels)
+
+        # Sigma_hat(tied covariance of the distribution of f(x[i]): applying outer-product to all data and calculate the mean --
+        sigma_hat = self.get_Sigma_hat(penultimate_data, mu_hat, num_neurons, num_labels, N)
+
+        # Calculate distance of training sample in each label's distribution ---------------------------------------------------
+        euc_temp = [None] * num_labels
+        mahala_temp = [None] * num_labels
         for label in range(num_labels):
-            temp_mu[label] = np.mean(penultimate_data[label], axis=0)
-        mu_hat = np.array(temp_mu)
+            euc_temp[label] = list()
+            mahala_temp[label] = list()
 
-        # Sigma_hat(tied covariance for mahalanobis distance): do outer product and sum it up and divide it by N ---------------
-        temp = np.zeros((num_neurons, num_neurons))
         for label in range(num_labels):
-            for datum in penultimate_data[label]:  # datum: label별 penultimate data중 하나, [64]데이터
-                u = np.reshape(datum, (num_neurons, 1))
-                v = np.reshape(mu_hat[label], (num_neurons, 1))
-                temp += np.matmul((u - v), (u - v).T)
-        sigma_hat = temp / 30000 # 수정필요
-        #print(np.linalg.det(sigma_hat))
+            for datum in penultimate_test_data[label]:
+                u = np.reshape(datum, (1, num_neurons))
+                v = np.reshape(mu_hat[label], (1, num_neurons))
+                euc_temp[label].append(distance.euclidean(u, v, None) ** 2)
+        e_dist_data = np.array(euc_temp)  # [0] ~ [9]
 
-        mahala_axis = list()
-        euc_axis = list()
-        mahala_sum = 0
-        euc_sum = 0
-        iteration = 20
-        x_axis = list(range(1, iteration+1))
+        X=np.linalg.inv(sigma_hat)
+        for label in range(num_labels):
+            for datum in penultimate_test_data[label]:
+                u = np.reshape(datum, (1, num_neurons))
+                v = np.reshape(mu_hat[label], (1, num_neurons))
+                mahala_temp[label].append(distance.mahalanobis(u, v, X) ** 2)
+        m_dist_data = np.array(mahala_temp)  # [0] ~ [9]
 
-        for ite in range(iteration):
-            # Calculate distance of training sample in each label's distribution ---------------------------------------------------
-            euc_temp = [None] * num_labels
-            mahala_temp = [None] * num_labels
-            for label in range(num_labels):
-                euc_temp[label] = list()
-                mahala_temp[label] = list()
+        m_max = self.Cal_mahalanobis_max(m_dist_data, num_labels)
 
+        return e_dist_data, m_dist_data, m_max
 
-            # print(f'Mahalanobis Distance Computation Time:{(time.time() - mahal_time):.2f}s')
+    def Cal_TPR(self, config):
+        N_data = len(data)  # 10000
+        f_x = np.array(sess.run(fullc2, feed_dict={x: data, keep_prob: 1.0}))
+        label_x
+        pred_x = np.array(range(N_test))
+        for i in range(N_data):
+            temp = [None] * num_of_labels
+            for label in range(num_of_labels):
+                temp[label] = list()
+                u = np.reshape(f_x[i], (1, num_of_neurons))
+                v = np.reshape(mu_hat[label], (1, num_of_neurons))
+                temp[label].append(distance.mahalanobis(u, v, np.linalg.inv(sigma_hat)) ** 2)
+            m_dist_data_of_x_test = np.array(temp)
+            index = np.argmin(m_dist_data_of_x_test, 0)  # finding index of the closest label
+            confidence_score_of_x_test = m_max[index] - m_dist_data_of_x_test[index]  # computing confidence score
+            if confidence_score_of_x_test > threshold:
+                label_of_x_test[i] = index // 2  # classifying in-distribution data
+            else:
+                label_of_x_test[i] = ood_index  # classifying out-of-distribution data
+        num_of_in_distribution = 0
+        num_of_correctly_classified = 0
+        accuracy_on_in_distribution = 0.0
+        for i in range(N_test):
+            if label_of_x_test[i] != ood_index:
+                num_of_in_distribution = num_of_in_distribution + 1
+                if label_of_x_test[i] == target_label_of_x_test[i]:
+                    num_of_correctly_classified = num_of_correctly_classified + 1
+        accuracy_on_in_distribution = num_of_correctly_classified / num_of_in_distribution
+        tpr = num_of_in_distribution / N_test
+        print('Classification accuracy on in-distribution: {:.4f}'.format(accuracy_on_in_distribution))
+        print('TPR on in-distribution(MNIST): {:.4f}'.format(tpr), end='\n')
 
-            euc_time = time.time()
-            for label in range(num_labels):
-                for datum in penultimate_test_data[label]:
-                    u = np.reshape(datum, (1, num_neurons))
-                    v = np.reshape(mu_hat[label], (1, num_neurons))
-                    euc_temp[label].append(distance.euclidean(u, v, None) ** 2)
-            e_dist_data = np.array(euc_temp)  # [0] ~ [9]
-            time_temp = time.time() - euc_time
-            euc_axis.append(time_temp)
-            euc_sum += time_temp
-            # print(f'Euclidean Distance Computation Time:{(time.time() - euc_time):.2f}s')
-
-            X=np.linalg.inv(sigma_hat)
-            mahal_time = time.time()
-            for label in range(num_labels):
-                for datum in penultimate_test_data[label]:
-                    u = np.reshape(datum, (1, num_neurons))
-                    v = np.reshape(mu_hat[label], (1, num_neurons))
-                    mahala_temp[label].append(distance.mahalanobis(u, v, X) ** 2)
-            m_dist_data = np.array(mahala_temp)  # [0] ~ [9]
-            time_temp = time.time() - mahal_time
-            mahala_axis.append(time_temp)
-            mahala_sum += time_temp
-
-        mahala_axis = np.array(mahala_axis)
-        euc_axis = np.array(euc_axis)
-
-        # Average time
-        print(f'Mahalanobis distance average calculation time:{(mahala_sum/20):f}s')
-        print(f'Euclidean distance average calculation time:{(euc_sum / 20):f}s')
-
-        make_plot(x_axis, mahala_axis, euc_axis)
+    def Cal_FPR(self, config):
+        N_ood = len(X_ood)  # 10000
+        X_ood = np.pad(X_ood, ((0, 0), (2, 2), (2, 2), (0, 0)), 'constant')  # Adding the padding to the dataset
+        f_of_x_ood = np.array(sess.run(fullc2, feed_dict={x: X_ood, keep_prob: 1.0}))
+        label_of_x_ood = np.array(range(N_ood))
+        for i in range(N_ood):
+            temp = [None] * num_of_labels
+            for label in range(num_of_labels):
+                temp[label] = list()
+                u = np.reshape(f_of_x_ood[i], (1, num_of_neurons))
+                v = np.reshape(mu_hat[label], (1, num_of_neurons))
+                temp[label].append(distance.mahalanobis(u, v, np.linalg.inv(sigma_hat)) ** 2)
+            m_dist_data_of_x_ood = np.array(temp)
+            index = np.argmin(m_dist_data_of_x_ood, 0)  # finding index of the closest label
+            confidence_score_of_x_ood = m_max[index] - m_dist_data_of_x_ood[index]  # computing confidence score
+            if confidence_score_of_x_ood > threshold:
+                label_of_x_ood[i] = index  # classifying in-distribution data
+            else:
+                label_of_x_ood[i] = ood_index  # classifying out-of-distribution data
+        num_of_in_distribution = 0
+        for i in range(N_ood):
+            if label_of_x_ood[i] != ood_index:
+                num_of_in_distribution = num_of_in_distribution + 1
+        fpr = num_of_in_distribution / N_ood
+        print('FPR on out-of-distribution(EMNIST): {:.4f}'.format(fpr), end='\n')
 
         '''
         # Set distance threshold for detecting OOD in each label ------------------------------------------------------------

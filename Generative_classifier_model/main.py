@@ -32,6 +32,8 @@ def main(_):
                       checkpoint_dir=FLAGS.checkpoint_dir,
                       sample_dir=FLAGS.sample_dir)
         srcnn.train(FLAGS)
+        srcnn.Cal_TPR(FLAGS)
+        srcnn.Cal_FPR(FLAGS)
 
 
 if __name__ == '__main__':
