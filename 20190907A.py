@@ -1,10 +1,29 @@
+# These are all the modules we'll be using later. Make sure you can import them
+# before proceeding further.
+from __future__ import print_function
+import matplotlib.pyplot as plt
+import numpy as np
+import os
+import sys
+import tarfile
+from IPython.display import display, Image
+from scipy import ndimage
+from sklearn.linear_model import LogisticRegression
+from six.moves.urllib.request import urlretrieve
+from six.moves import cPickle as pickle
+
+url = 'http://commondatastorage.googleapis.com/books1000/'
+last_percent_reported = None
+
 import numpy as np
 import tensorflow as tf
 import os
 from tensorflow.examples.tutorials.mnist import input_data
 from scipy.spatial import distance
-import matplotlib.pyplot as plt
 import gzip as gz
+from sklearn.utils import shuffle
+import matplotlib.pyplot as plt
+from skimage import util
 
 
 # Giving specific random seed for data permutation and tf.Variable initialization
@@ -82,21 +101,6 @@ def train_step(loss):
 def accuracy(y, t):
     return tf.reduce_mean(tf.cast(tf.equal(tf.argmax(y, 1), tf.argmax(t, 1)), tf.float32))
 
-def get_Mu_hat(data, num_neurons, num_labels):
-    mu_hat = [np.zeros(num_neurons)] * num_labels
-    for label in range(num_labels):
-        mu_hat[label] = np.mean(data[label], axis=0)
-    return mu_hat
-
-def get_Sigma_hat(data, mu_hat, num_neurons, num_labels, num_data):
-    sigma_hat = np.zeros([num_neurons, num_neurons])
-    for label in range(num_labels):
-        for datum in data[label]:
-            u = np.reshape(datum, (num_neurons, 1))
-            v = np.reshape(mu_hat[label], (num_neurons, 1))
-            sigma_hat += np.matmul((u - v), (u - v).T)
-    sigma_hat /= num_data
-    return sigma_hat
 
 if __name__ == '__main__':
     # Getting data =====================================================================================================
@@ -133,8 +137,8 @@ if __name__ == '__main__':
     accuracy = accuracy(y, one_hot_t)
 
     # Training and evaluating model ====================================================================================
+    '''
     # 1.Store(Train) ---------------------------------------------------------------------------------------------------
-    '''   
     init = tf.global_variables_initializer()
     saver = tf.train.Saver()
     sess = tf.Session()
@@ -177,12 +181,11 @@ if __name__ == '__main__':
 ########################################################################################################################
 # Generative classifier ================================================================================================
 ########################################################################################################################
-N = len(X_train)                                                                  # number of training data(x[i]): 30000
+N = len(X_train)                                                              # the number of training data(x[i]): 30000
 f_of_x = np.array(sess.run(fullc2, feed_dict={x: X_train, keep_prob: 1.0}))   # the output of the layer of x[i]: f(x[i])
 label_of_x = np.array(sess.run(tf.argmax(y, 1), feed_dict={x: X_train, keep_prob: 1.0}))      # classified label of x[i]
 num_of_labels = 10                                                                         # number of labels: 10(MNIST)
 num_of_neurons = len(f_of_x[0])                                         # number of neurons(dimensions) in the layer: 64
-k = 2                                                                                       # k in K-means clustering: 2
 
 # Data(data[j][k]: (k+1)th f(x) of label j): distinguishing f(x[i]) by its label ---------------------------------------
 temp = [None] * num_of_labels
@@ -192,15 +195,21 @@ for i in range(N):
     temp[label_of_x[i]].append(f_of_x[i])
 data = np.array(temp)                                             # changing the list to numpy array for numpy operation
 
-
-
 # Mu_hat(mean vector for each label, mu_hat[j] = mean of f(x[i]) in label j): calculating mean of the data in each label
-mu_hat = get_Mu_hat(data, num_of_neurons, num_of_labels)
+mu_hat = [np.zeros(num_of_neurons)] * num_of_labels
+for label in range(num_of_labels):
+    mu_hat[label] = np.mean(data[label], axis=0)
 
 # Sigma_hat(tied covariance of the distribution of f(x[i]): applying outer-product to all data and calculate the mean --
-sigma_hat = get_Sigma_hat(data, mu_hat, num_of_neurons, num_of_labels, N)
+sigma_hat = np.zeros([num_of_neurons, num_of_neurons])
+for label in range(num_of_labels):
+    for datum in data[label]:
+        u = np.reshape(datum, (num_of_neurons, 1))
+        v = np.reshape(mu_hat[label], (num_of_neurons, 1))
+        sigma_hat += np.matmul((u - v), (u - v).T)
+sigma_hat = sigma_hat / N
 
-# M_dist_data(m_dist_data[j][k]: (k+1)th Mahalanobis distance data of label j) -----------------------------------------
+# M(E)_dist_data(m(e)_dist_data[j][k]: (k+1)th Mahalanobis(Euclidean) distance data of label j) ------------------------
 temp = [None] * num_of_labels
 for label in range(num_of_labels):
     temp[label] = list()
@@ -208,22 +217,21 @@ for label in range(num_of_labels):
     for datum in data[label]:
         u = np.reshape(datum, (1, num_of_neurons))
         v = np.reshape(mu_hat[label], (1, num_of_neurons))
-        # temp[label].append(distance.euclidean(u, v, None) ** 2)
-        temp[label].append(distance.mahalanobis(u, v, np.linalg.inv(sigma_hat)) ** 2)
-# e_dist_data = np.array(temp)
-m_dist_data = np.array(temp)
+        temp[label].append(distance.euclidean(u, v, None) ** 2)
+        # temp[label].append(distance.mahalanobis(u, v, np.linalg.inv(sigma_hat)) ** 2)
+e_dist_data = np.array(temp)
+# m_dist_data = np.array(temp)
 
-# M_max(mahalanobis distance threshold, max[j] = Mahalanobis distance threshold of label j) ----------------------------
+# Max(distance threshold, max_dist_data[j] = Mahalanobis(Euclidean) distance threshold of label j) ---------------------
 temp = [None] * num_of_labels
 for label in range(num_of_labels):
     temp[label] = list()
 for label in range(num_of_labels):
-    # temp[label].append(np.percentile(e_dist_data[label], 100, interpolation='linear'))
-    temp[label].append(np.percentile(m_dist_data[label], 100, interpolation='linear'))
-# e_max = np.array(temp)
-m_max = np.array(temp)
+    temp[label].append(np.percentile(e_dist_data[label], 95, interpolation='linear'))
+    # temp[label].append(np.percentile(m_dist_data[label], 95, interpolation='linear'))
+max_dist_data = np.array(temp)
 
-# Histogram for each label's Mahalanobis distance distribution ---------------------------------------------------------
+# Histogram for each label's Mahalanobis(Euclidean) distance distribution ----------------------------------------------
 '''
 for label in range(num_of_labels):
     # data = np.sort(e_dist_data[label])
@@ -240,13 +248,14 @@ for label in range(num_of_labels):
 ########################################################################################################################
 # Receiver operating characteristic point ==============================================================================
 ########################################################################################################################
-threshold = -94.0                                    # threshold variable for Mahalanobis distance-based confidence score
+threshold = -4.3                         # threshold variable for Mahalanobis(Euclidean) distance-based confidence score
 ood_index = -1                                                             # giving label -1 to out-of-distribution data
 f = gz.open('EMNIST_data/emnist-letters-train-images-idx3-ubyte.gz', 'r')  # EMNIST dataset for out-of-distribution data
 f.read(16)
 buf = f.read(28 * 28 * 10000)
 X_ood = np.frombuffer(buf, dtype=np.uint8).astype(np.float32)
 X_ood = X_ood.reshape([10000, 28, 28, 1])
+X_ood = X_ood / 255.0                                                      # scaling X_ood from 0.0 ~ 255.0 to 0.0 ~ 1.0
 
 # TPR on in-distribution(MNIST test dataset) ---------------------------------------------------------------------------
 N_test = len(X_test)                                                                                             # 10000
@@ -259,10 +268,11 @@ for i in range(N_test):
         temp[label] = list()
         u = np.reshape(f_of_x_test[i], (1, num_of_neurons))
         v = np.reshape(mu_hat[label], (1, num_of_neurons))
-        temp[label].append(distance.mahalanobis(u, v, np.linalg.inv(sigma_hat))**2)
-    m_dist_data_of_x_test = np.array(temp)
-    index = np.argmin(m_dist_data_of_x_test, 0)                                     # finding index of the closest label
-    confidence_score_of_x_test = m_max[index] - m_dist_data_of_x_test[index]                # computing confidence score
+        temp[label].append(distance.euclidean(u, v, None) ** 2)
+        # temp[label].append(distance.mahalanobis(u, v, np.linalg.inv(sigma_hat)) ** 2)
+    dist_data_of_x_test = np.array(temp)
+    index = np.argmin(dist_data_of_x_test, 0)                                       # finding index of the closest label
+    confidence_score_of_x_test = max_dist_data[index] - dist_data_of_x_test[index]          # computing confidence score
     if confidence_score_of_x_test > threshold:
         label_of_x_test[i] = index                                                    # classifying in-distribution data
     else:
@@ -291,10 +301,11 @@ for i in range(N_ood):
         temp[label] = list()
         u = np.reshape(f_of_x_ood[i], (1, num_of_neurons))
         v = np.reshape(mu_hat[label], (1, num_of_neurons))
-        temp[label].append(distance.mahalanobis(u, v, np.linalg.inv(sigma_hat))**2)
-    m_dist_data_of_x_ood = np.array(temp)
-    index = np.argmin(m_dist_data_of_x_ood, 0)                                      # finding index of the closest label
-    confidence_score_of_x_ood = m_max[index] - m_dist_data_of_x_ood[index]                  # computing confidence score
+        temp[label].append(distance.euclidean(u, v, None) ** 2)
+        # temp[label].append(distance.mahalanobis(u, v, np.linalg.inv(sigma_hat))**2)
+    dist_data_of_x_ood = np.array(temp)
+    index = np.argmin(dist_data_of_x_ood, 0)                                        # finding index of the closest label
+    confidence_score_of_x_ood = max_dist_data[index] - dist_data_of_x_ood[index]            # computing confidence score
     if confidence_score_of_x_ood > threshold:
         label_of_x_ood[i] = index                                                     # classifying in-distribution data
     else:
@@ -305,4 +316,238 @@ for i in range(N_ood):
         num_of_in_distribution = num_of_in_distribution + 1
 fpr = num_of_in_distribution / N_ood
 print('FPR on out-of-distribution(ENMIST): {:.4f}'.format(fpr), end='\n')
-# (threshold, TPR, FPR) = ( , , )
+
+
+
+'''
+def download_progress_hook(count, blockSize, totalSize):
+    """A hook to report the progress of a download. This is mostly intended for users with
+    slow internet connections. Reports every 1% change in download progress.
+    """
+    global last_percent_reported
+    percent = int(count * blockSize * 100 / totalSize)
+
+    if last_percent_reported != percent:
+        if percent % 5 == 0:
+            sys.stdout.write("%s%%" % percent)
+            sys.stdout.flush()
+        else:
+            sys.stdout.write(".")
+            sys.stdout.flush()
+
+        last_percent_reported = percent
+
+
+def maybe_download(filename, expected_bytes, force=False):
+    """Download a file if not present, and make sure it's the right size."""
+    if force or not os.path.exists(filename):
+        print('Attempting to download:', filename)
+        filename, _ = urlretrieve(url + filename, filename, reporthook=download_progress_hook)
+        print('\nDownload Complete!')
+    statinfo = os.stat(filename)
+    if statinfo.st_size == expected_bytes:
+        print('Found and verified', filename)
+    else:
+        raise Exception(
+            'Failed to verify ' + filename + '. Can you get to it with a browser?')
+    return filename
+
+
+# train_filename = maybe_download('notMNIST_large.tar.gz', 247336696)
+test_filename = maybe_download('notMNIST_small.tar.gz', 8458043)
+
+num_classes = 10
+np.random.seed(133)
+
+
+def maybe_extract(filename, force=False):
+    root = os.path.splitext(os.path.splitext(filename)[0])[0]  # remove .tar.gz
+    if os.path.isdir(root) and not force:
+        # You may override by setting force=True.
+        print('%s already present - Skipping extraction of %s.' % (root, filename))
+    else:
+        print('Extracting data for %s. This may take a while. Please wait.' % root)
+        tar = tarfile.open(filename)
+        sys.stdout.flush()
+        tar.extractall()
+        tar.close()
+    data_folders = [
+        os.path.join(root, d) for d in sorted(os.listdir(root))
+        if os.path.isdir(os.path.join(root, d))]
+    if len(data_folders) != num_classes:
+        raise Exception(
+            'Expected %d folders, one per class. Found %d instead.' % (
+                num_classes, len(data_folders)))
+    print(data_folders)
+    return data_folders
+
+
+# train_folders = maybe_extract(train_filename)
+test_folders = maybe_extract(test_filename)
+
+image_size = 28  # Pixel width and height.
+pixel_depth = 255.0  # Number of levels per pixel.
+
+
+def load_letter(folder, min_num_images):
+    """Load the data for a single letter label."""
+    image_files = os.listdir(folder)
+    dataset = np.ndarray(shape=(len(image_files), image_size, image_size),
+                         dtype=np.float32)
+    print(folder)
+    num_images = 0
+    for image in image_files:
+        image_file = os.path.join(folder, image)
+        try:
+            image_data = (ndimage.imread(image_file).astype(float) -
+                          pixel_depth / 2) / pixel_depth
+            if image_data.shape != (image_size, image_size):
+                raise Exception('Unexpected image shape: %s' % str(image_data.shape))
+            dataset[num_images, :, :] = image_data
+            num_images = num_images + 1
+        except IOError as e:
+            print('Could not read:', image_file, ':', e, '- it\'s ok, skipping.')
+
+    dataset = dataset[0:num_images, :, :]
+    if num_images < min_num_images:
+        raise Exception('Many fewer images than expected: %d < %d' %
+                        (num_images, min_num_images))
+
+    print('Full dataset tensor:', dataset.shape)
+    print('Mean:', np.mean(dataset))
+    print('Standard deviation:', np.std(dataset))
+    return dataset
+
+
+def maybe_pickle(data_folders, min_num_images_per_class, force=False):
+    dataset_names = []
+    for folder in data_folders:
+        set_filename = folder + '.pickle'
+        dataset_names.append(set_filename)
+        if os.path.exists(set_filename) and not force:
+            # You may override by setting force=True.
+            print('%s already present - Skipping pickling.' % set_filename)
+        else:
+            print('Pickling %s.' % set_filename)
+            dataset = load_letter(folder, min_num_images_per_class)
+            try:
+                with open(set_filename, 'wb') as f:
+                    pickle.dump(dataset, f, pickle.HIGHEST_PROTOCOL)
+            except Exception as e:
+                print('Unable to save data to', set_filename, ':', e)
+
+    return dataset_names
+
+#train_datasets = maybe_pickle(train_folders, 45000)
+test_datasets = maybe_pickle(test_folders, 1800)
+
+
+def make_arrays(nb_rows, img_size):
+    if nb_rows:
+        dataset = np.ndarray((nb_rows, img_size, img_size), dtype=np.float32)
+        labels = np.ndarray(nb_rows, dtype=np.int32)
+    else:
+        dataset, labels = None, None
+    return dataset, labels
+
+
+def merge_datasets(pickle_files, train_size, valid_size=0):
+    num_classes = len(pickle_files)
+    valid_dataset, valid_labels = make_arrays(valid_size, image_size)
+    train_dataset, train_labels = make_arrays(train_size, image_size)
+    vsize_per_class = valid_size // num_classes
+    tsize_per_class = train_size // num_classes
+
+    start_v, start_t = 0, 0
+    end_v, end_t = vsize_per_class, tsize_per_class
+    end_l = vsize_per_class + tsize_per_class
+    for label, pickle_file in enumerate(pickle_files):
+        try:
+            with open(pickle_file, 'rb') as f:
+                letter_set = pickle.load(f)
+                # let's shuffle the letters to have random validation and training set
+                np.random.shuffle(letter_set)
+                if valid_dataset is not None:
+                    valid_letter = letter_set[:vsize_per_class, :, :]
+                    valid_dataset[start_v:end_v, :, :] = valid_letter
+                    valid_labels[start_v:end_v] = label
+                    start_v += vsize_per_class
+                    end_v += vsize_per_class
+
+                train_letter = letter_set[vsize_per_class:end_l, :, :]
+                train_dataset[start_t:end_t, :, :] = train_letter
+                train_labels[start_t:end_t] = label
+                start_t += tsize_per_class
+                end_t += tsize_per_class
+        except Exception as e:
+            print('Unable to process data from', pickle_file, ':', e)
+            raise
+
+    return valid_dataset, valid_labels, train_dataset, train_labels
+
+
+train_size = 200000
+valid_size = 10000
+test_size = 10000
+
+_, _, test_dataset, test_labels = merge_datasets(test_datasets, test_size)
+
+print('Testing:', test_dataset.shape, test_labels.shape)
+
+def randomize(dataset, labels):
+  permutation = np.random.permutation(labels.shape[0])
+  shuffled_dataset = dataset[permutation,:,:]
+  shuffled_labels = labels[permutation]
+  return shuffled_dataset, shuffled_labels
+
+test_dataset, test_labels = randomize(test_dataset, test_labels)
+
+X_ood = test_dataset
+
+# FPR on out-of-distribution(NOTMNIST dataset) -------------------------------------------------------------------------
+N_ood = len(X_ood)                                                                                               # 10000
+X_ood = X_ood.reshape([10000, 28, 28, 1])
+X_ood = X_ood + 0.5
+for i in range(N_ood):
+    X_ood[i] = util.random_noise(X_ood[i], mode='pepper', clip=True)
+    X_ood[i] = util.random_noise(X_ood[i], mode='pepper', clip=True)
+    X_ood[i] = util.random_noise(X_ood[i], mode='pepper', clip=True)
+    X_ood[i] = util.random_noise(X_ood[i], mode='pepper', clip=True)
+    X_ood[i] = util.random_noise(X_ood[i], mode='pepper', clip=True)
+X_ood = np.pad(X_ood, ((0, 0), (2, 2), (2, 2), (0, 0)), 'constant')                  # Adding the padding to the dataset
+f_of_x_ood = np.array(sess.run(fullc2, feed_dict={x: X_ood, keep_prob: 1.0}))
+label_of_x_ood = np.array(range(N_ood))
+for i in range(N_ood):
+    temp = [None] * num_of_labels
+    for label in range(num_of_labels):
+        temp[label] = list()
+        u = np.reshape(f_of_x_ood[i], (1, num_of_neurons))
+        v = np.reshape(mu_hat[label], (1, num_of_neurons))
+        temp[label].append(distance.euclidean(u, v, None) ** 2)
+        # temp[label].append(distance.mahalanobis(u, v, np.linalg.inv(sigma_hat))**2)
+    dist_data_of_x_ood = np.array(temp)
+    index = np.argmin(dist_data_of_x_ood, 0)                                      # finding index of the closest label
+    print('index:',index)
+    confidence_score_of_x_ood = max_dist_data[index] - dist_data_of_x_ood[index]            # computing confidence score
+    if confidence_score_of_x_ood > threshold:
+        label_of_x_ood[i] = index                                                     # classifying in-distribution data
+    else:
+        label_of_x_ood[i] = ood_index                                             # classifying out-of-distribution data
+    if i < 20:
+        plt.imshow(np.reshape(X_ood[i], [32, 32]), cmap='Greys')
+        plt.show()
+        print(label_of_x_ood[i])
+num_of_in_distribution = 0
+
+for i in range(N_ood):
+    if label_of_x_ood[i] != ood_index:
+        num_of_in_distribution = num_of_in_distribution + 1
+fpr = num_of_in_distribution / N_ood
+print('FPR on out-of-distribution(NOTMNIST): {:.4f}'.format(fpr), end='\n')
+'''
+
+# (distance, threshold, TPR, FPR-EMNIST, accuracy) = (Euclidean, -4.3, 0.9500, 0.3661, 9960)
+# (distance, threshold, TPR, FPR-EMNIST, accuracy) = (Mahalanobis, -2.8, 0.9500, 0.4140, 9935)
+
+# e 0.2274       0.2219          0.2400
+# m 0.3000

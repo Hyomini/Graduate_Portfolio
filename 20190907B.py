@@ -2,14 +2,14 @@ import numpy as np
 import tensorflow as tf
 import os
 from tensorflow.examples.tutorials.mnist import input_data
-import matplotlib.pylab as plt
 from scipy.spatial import distance
 import pandas as pd
 from sklearn.manifold import TSNE
 from sklearn.cluster import KMeans
 import seaborn as sns
-import matplotlib.pyplot as plt
 import gzip as gz
+from sklearn.utils import shuffle
+import matplotlib.pyplot as plt
 
 
 # Giving specific random seed for data permutation and tf.Variable initialization
@@ -123,8 +123,8 @@ if __name__ == '__main__':
     accuracy = accuracy(y, one_hot_t)
 
     # Training and evaluating model ====================================================================================
-    # 1.Store(Train) ---------------------------------------------------------------------------------------------------
-    '''   
+    '''
+    # 1.Store(Train) ---------------------------------------------------------------------------------------------------   
     init = tf.global_variables_initializer()
     saver = tf.train.Saver()
     sess = tf.Session()
@@ -167,7 +167,7 @@ if __name__ == '__main__':
 ########################################################################################################################
 # Generative classifier ================================================================================================
 ########################################################################################################################
-N = len(X_train)                                                                  # number of training data(x[i]): 30000
+N = len(X_train)                                                              # the number of training data(x[i]): 30000
 f_of_x = np.array(sess.run(fullc2, feed_dict={x: X_train, keep_prob: 1.0}))   # the output of the layer of x[i]: f(x[i])
 label_of_x = np.array(sess.run(tf.argmax(y, 1), feed_dict={x: X_train, keep_prob: 1.0}))      # classified label of x[i]
 num_of_labels = 10                                                                         # number of labels: 10(MNIST)
@@ -187,7 +187,7 @@ temp = [None] * k * num_of_labels
 for label in range(k * num_of_labels):
     temp[label] = list()
 for label in range(num_of_labels):
-    t_sne_data = TSNE(learning_rate=300).fit_transform(data[label])                    # dimension reduction using t-SNE
+    t_sne_data = TSNE(learning_rate=100).fit_transform(data[label])                    # dimension reduction using t-SNE
     data_frame = pd.DataFrame(t_sne_data, columns=('x', 'y'))            # making 2-dimensional data frame by t-SNE data
     data_points = data_frame.values
     k_means_data = KMeans(n_clusters=k).fit(data_points)                                            # k-means clustering
@@ -218,7 +218,7 @@ for label in range(num_of_labels):
         sigma_hat += np.matmul((u - v), (u - v).T)
 sigma_hat = sigma_hat / N
 
-# M_dist_data(m_dist_data[j][k]: (k+1)th Mahalanobis distance data of label j) -----------------------------------------
+# M(E)_dist_data(m(e)_dist_data[j][k]: (k+1)th Mahalanobis(Euclidean) distance data of label j) ------------------------
 temp = [None] * num_of_labels
 for label in range(num_of_labels):
     temp[label] = list()
@@ -226,22 +226,21 @@ for label in range(num_of_labels):
     for datum in data[label]:
         u = np.reshape(datum, (1, num_of_neurons))
         v = np.reshape(mu_hat[label], (1, num_of_neurons))
-        # temp[label].append(distance.euclidean(u, v, None) ** 2)
-        temp[label].append(distance.mahalanobis(u, v, np.linalg.inv(sigma_hat)) ** 2)
-# e_dist_data = np.array(temp)
-m_dist_data = np.array(temp)
+        temp[label].append(distance.euclidean(u, v, None) ** 2)
+        # temp[label].append(distance.mahalanobis(u, v, np.linalg.inv(sigma_hat)) ** 2)
+e_dist_data = np.array(temp)
+# m_dist_data = np.array(temp)
 
-# M_max(mahalanobis distance threshold, max[j] = Mahalanobis distance threshold of label j) ----------------------------
+# Max(distance threshold, max_dist_data[j] = Mahalanobis(Eucliean) distance threshold of label j) ----------------------
 temp = [None] * num_of_labels
 for label in range(num_of_labels):
     temp[label] = list()
 for label in range(num_of_labels):
-    # temp[label].append(np.percentile(e_dist_data[label], 100, interpolation='linear'))
-    temp[label].append(np.percentile(m_dist_data[label], 100, interpolation='linear'))
-# e_max = np.array(temp)
-m_max = np.array(temp)
+    temp[label].append(np.percentile(e_dist_data[label], 95, interpolation='linear'))
+    # temp[label].append(np.percentile(m_dist_data[label], 95, interpolation='linear'))
+max_dist_data = np.array(temp)
 
-# Histogram for each label's Mahalanobis distance distribution ---------------------------------------------------------
+# Histogram for each label's Mahalanobis(Euclidean) distance distribution ----------------------------------------------
 '''
 for label in range(num_of_labels):
     # data = np.sort(e_dist_data[label])
@@ -258,13 +257,14 @@ for label in range(num_of_labels):
 ########################################################################################################################
 # Receiver operating characteristic point ==============================================================================
 ########################################################################################################################
-threshold = -2.5                                    # threshold variable for Mahalanobis distance-based confidence score
+threshold = -2.8                         # threshold variable for Mahalanobis(Euclidean) distance-based confidence score
 ood_index = -1                                                             # giving label -1 to out-of-distribution data
 f = gz.open('EMNIST_data/emnist-letters-train-images-idx3-ubyte.gz', 'r')  # EMNIST dataset for out-of-distribution data
 f.read(16)
 buf = f.read(28 * 28 * 10000)
 X_ood = np.frombuffer(buf, dtype=np.uint8).astype(np.float32)
 X_ood = X_ood.reshape(10000, 28, 28, 1)
+X_ood = X_ood / 255.0                                                      # scaling X_ood from 0.0 ~ 255.0 to 0.0 ~ 1.0
 
 # TPR on in-distribution(MNIST test dataset) ---------------------------------------------------------------------------
 N_test = len(X_test)                                                                                             # 10000
@@ -277,12 +277,13 @@ for i in range(N_test):
         temp[label] = list()
         u = np.reshape(f_of_x_test[i], (1, num_of_neurons))
         v = np.reshape(mu_hat[label], (1, num_of_neurons))
-        temp[label].append(distance.mahalanobis(u, v, np.linalg.inv(sigma_hat))**2)
-    m_dist_data_of_x_test = np.array(temp)
-    index = np.argmin(m_dist_data_of_x_test, 0)                                     # finding index of the closest label
-    confidence_score_of_x_test = m_max[index] - m_dist_data_of_x_test[index]                # computing confidence score
+        temp[label].append(distance.euclidean(u, v, None) ** 2)
+        # temp[label].append(distance.mahalanobis(u, v, np.linalg.inv(sigma_hat))**2)
+    dist_data_of_x_test = np.array(temp)
+    index = np.argmin(dist_data_of_x_test, 0)                                       # finding index of the closest label
+    confidence_score_of_x_test = max_dist_data[index] - dist_data_of_x_test[index]          # computing confidence score
     if confidence_score_of_x_test > threshold:
-        label_of_x_test[i] = index // 2                                               # classifying in-distribution data
+        label_of_x_test[i] = index // k                                               # classifying in-distribution data
     else:
         label_of_x_test[i] = ood_index                                            # classifying out-of-distribution data
 num_of_in_distribution = 0
@@ -309,10 +310,11 @@ for i in range(N_ood):
         temp[label] = list()
         u = np.reshape(f_of_x_ood[i], (1, num_of_neurons))
         v = np.reshape(mu_hat[label], (1, num_of_neurons))
-        temp[label].append(distance.mahalanobis(u, v, np.linalg.inv(sigma_hat))**2)
-    m_dist_data_of_x_ood = np.array(temp)
-    index = np.argmin(m_dist_data_of_x_ood, 0)                                      # finding index of the closest label
-    confidence_score_of_x_ood = m_max[index] - m_dist_data_of_x_ood[index]                  # computing confidence score
+        temp[label].append(distance.euclidean(u, v, None) ** 2)
+        # temp[label].append(distance.mahalanobis(u, v, np.linalg.inv(sigma_hat))**2)
+    dist_data_of_x_ood = np.array(temp)
+    index = np.argmin(dist_data_of_x_ood, 0)                                        # finding index of the closest label
+    confidence_score_of_x_ood = max_dist_data[index] - dist_data_of_x_ood[index]            # computing confidence score
     if confidence_score_of_x_ood > threshold:
         label_of_x_ood[i] = index                                                     # classifying in-distribution data
     else:
@@ -323,4 +325,6 @@ for i in range(N_ood):
         num_of_in_distribution = num_of_in_distribution + 1
 fpr = num_of_in_distribution / N_ood
 print('FPR on out-of-distribution(EMNIST): {:.4f}'.format(fpr), end='\n')
-# (threshold, TPR, FPR) = ( , , )
+
+# (distance, threshold, TPR, FPR) = (E , , , ,)
+# (distance, threshold, TPR, FPR) = (M , -2.8, 0.9499, 0.4657 )
