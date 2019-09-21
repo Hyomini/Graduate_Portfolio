@@ -1,3 +1,20 @@
+# These are all the modules we'll be using later. Make sure you can import them
+# before proceeding further.
+from __future__ import print_function
+import matplotlib.pyplot as plt
+import numpy as np
+import os
+import sys
+import tarfile
+from IPython.display import display, Image
+from scipy import ndimage
+from sklearn.linear_model import LogisticRegression
+from six.moves.urllib.request import urlretrieve
+from six.moves import cPickle as pickle
+
+url = 'http://commondatastorage.googleapis.com/books1000/'
+last_percent_reported = None
+
 import numpy as np
 import tensorflow as tf
 import os
@@ -226,18 +243,18 @@ for label in range(num_of_labels):
     for datum in data[label]:
         u = np.reshape(datum, (1, num_of_neurons))
         v = np.reshape(mu_hat[label], (1, num_of_neurons))
-        temp[label].append(distance.euclidean(u, v, None) ** 2)
-        # temp[label].append(distance.mahalanobis(u, v, np.linalg.inv(sigma_hat)) ** 2)
-e_dist_data = np.array(temp)
-# m_dist_data = np.array(temp)
+        # temp[label].append(distance.euclidean(u, v, None) ** 2)
+        temp[label].append(distance.mahalanobis(u, v, np.linalg.inv(sigma_hat)) ** 2)
+# e_dist_data = np.array(temp)
+m_dist_data = np.array(temp)
 
 # Max(distance threshold, max_dist_data[j] = Mahalanobis(Eucliean) distance threshold of label j) ----------------------
 temp = [None] * num_of_labels
 for label in range(num_of_labels):
     temp[label] = list()
 for label in range(num_of_labels):
-    temp[label].append(np.percentile(e_dist_data[label], 95, interpolation='linear'))
-    # temp[label].append(np.percentile(m_dist_data[label], 95, interpolation='linear'))
+    # temp[label].append(np.percentile(e_dist_data[label], 95, interpolation='linear'))
+    temp[label].append(np.percentile(m_dist_data[label], 95, interpolation='linear'))
 max_dist_data = np.array(temp)
 
 # Histogram for each label's Mahalanobis(Euclidean) distance distribution ----------------------------------------------
@@ -257,7 +274,7 @@ for label in range(num_of_labels):
 ########################################################################################################################
 # Receiver operating characteristic point ==============================================================================
 ########################################################################################################################
-threshold = -2.8                         # threshold variable for Mahalanobis(Euclidean) distance-based confidence score
+threshold = 80                         # threshold variable for Mahalanobis(Euclidean) distance-based confidence score
 ood_index = -1                                                             # giving label -1 to out-of-distribution data
 f = gz.open('EMNIST_data/emnist-letters-train-images-idx3-ubyte.gz', 'r')  # EMNIST dataset for out-of-distribution data
 f.read(16)
@@ -265,66 +282,75 @@ buf = f.read(28 * 28 * 10000)
 X_ood = np.frombuffer(buf, dtype=np.uint8).astype(np.float32)
 X_ood = X_ood.reshape(10000, 28, 28, 1)
 X_ood = X_ood / 255.0                                                      # scaling X_ood from 0.0 ~ 255.0 to 0.0 ~ 1.0
+X_ood = np.pad(X_ood, ((0, 0), (2, 2), (2, 2), (0, 0)), 'constant')  # Adding the padding to the dataset
+fp = open("EMNIST_B_M_log.txt",'w')
 
-# TPR on in-distribution(MNIST test dataset) ---------------------------------------------------------------------------
-N_test = len(X_test)                                                                                             # 10000
-f_of_x_test = np.array(sess.run(fullc2, feed_dict={x: X_test, keep_prob: 1.0}))
-target_label_of_x_test = Y_test
-label_of_x_test = np.array(range(N_test))
-for i in range(N_test):
-    temp = [None] * num_of_labels
-    for label in range(num_of_labels):
-        temp[label] = list()
-        u = np.reshape(f_of_x_test[i], (1, num_of_neurons))
-        v = np.reshape(mu_hat[label], (1, num_of_neurons))
-        temp[label].append(distance.euclidean(u, v, None) ** 2)
-        # temp[label].append(distance.mahalanobis(u, v, np.linalg.inv(sigma_hat))**2)
-    dist_data_of_x_test = np.array(temp)
-    index = np.argmin(dist_data_of_x_test, 0)                                       # finding index of the closest label
-    confidence_score_of_x_test = max_dist_data[index] - dist_data_of_x_test[index]          # computing confidence score
-    if confidence_score_of_x_test > threshold:
-        label_of_x_test[i] = index // k                                               # classifying in-distribution data
-    else:
-        label_of_x_test[i] = ood_index                                            # classifying out-of-distribution data
-num_of_in_distribution = 0
-num_of_correctly_classified = 0
-accuracy_on_in_distribution = 0.0
-for i in range(N_test):
-    if label_of_x_test[i] != ood_index:
-        num_of_in_distribution = num_of_in_distribution + 1
-        if label_of_x_test[i] == target_label_of_x_test[i]:
-            num_of_correctly_classified = num_of_correctly_classified + 1
-accuracy_on_in_distribution = num_of_correctly_classified / num_of_in_distribution
-tpr = num_of_in_distribution / N_test
-print('Classification accuracy on in-distribution: {:.4f}'.format(accuracy_on_in_distribution))
-print('TPR on in-distribution(MNIST): {:.4f}'.format(tpr), end='\n')
+for threshold in range(150):
+    # TPR on in-distribution(MNIST test dataset) ---------------------------------------------------------------------------
+    N_test = len(X_test)  # 10000
+    f_of_x_test = np.array(sess.run(fullc2, feed_dict={x: X_test, keep_prob: 1.0}))
+    target_label_of_x_test = Y_test
+    label_of_x_test = np.array(range(N_test))
+    for i in range(N_test):
+        temp = [None] * num_of_labels
+        for label in range(num_of_labels):
+            temp[label] = list()
+            u = np.reshape(f_of_x_test[i], (1, num_of_neurons))
+            v = np.reshape(mu_hat[label], (1, num_of_neurons))
+            # temp[label].append(distance.euclidean(u, v, None) ** 2)
+            temp[label].append(distance.mahalanobis(u, v, np.linalg.inv(sigma_hat)) ** 2)
+        dist_data_of_x_test = np.array(temp)
+        index = np.argmin(dist_data_of_x_test, 0)  # finding index of the closest label
+        confidence_score_of_x_test = max_dist_data[index] - dist_data_of_x_test[index]  # computing confidence score
+        if confidence_score_of_x_test > threshold:
+            label_of_x_test[i] = index // k  # classifying in-distribution data
+        else:
+            label_of_x_test[i] = ood_index  # classifying out-of-distribution data
+    num_of_in_distribution = 0
+    num_of_correctly_classified = 0
+    accuracy_on_in_distribution = 0.0
+    for i in range(N_test):
+        if label_of_x_test[i] != ood_index:
+            num_of_in_distribution = num_of_in_distribution + 1
+            if label_of_x_test[i] == target_label_of_x_test[i]:
+                num_of_correctly_classified = num_of_correctly_classified + 1
+    accuracy_on_in_distribution = num_of_correctly_classified / num_of_in_distribution
+    tpr = num_of_in_distribution / N_test
+    print('Classification accuracy on in-distribution: {:.4f}'.format(accuracy_on_in_distribution))
+    print('TPR on in-distribution(MNIST): {:.4f}'.format(tpr), end='\n')
+    write_data = 'Classification accuracy on in-distribution: {:.4f}\n'.format(accuracy_on_in_distribution)
+    fp.write(write_data)
+    write_data = 'TPR on in-distribution(MNIST): {:.4f}\n'.format(tpr)
+    fp.write(write_data)
 
-# FPR on out-of-distribution(EMNIST dataset) ---------------------------------------------------------------------------
-N_ood = len(X_ood)                                                                                               # 10000
-X_ood = np.pad(X_ood, ((0, 0), (2, 2), (2, 2), (0, 0)), 'constant')                  # Adding the padding to the dataset
-f_of_x_ood = np.array(sess.run(fullc2, feed_dict={x: X_ood, keep_prob: 1.0}))
-label_of_x_ood = np.array(range(N_ood))
-for i in range(N_ood):
-    temp = [None] * num_of_labels
-    for label in range(num_of_labels):
-        temp[label] = list()
-        u = np.reshape(f_of_x_ood[i], (1, num_of_neurons))
-        v = np.reshape(mu_hat[label], (1, num_of_neurons))
-        temp[label].append(distance.euclidean(u, v, None) ** 2)
-        # temp[label].append(distance.mahalanobis(u, v, np.linalg.inv(sigma_hat))**2)
-    dist_data_of_x_ood = np.array(temp)
-    index = np.argmin(dist_data_of_x_ood, 0)                                        # finding index of the closest label
-    confidence_score_of_x_ood = max_dist_data[index] - dist_data_of_x_ood[index]            # computing confidence score
-    if confidence_score_of_x_ood > threshold:
-        label_of_x_ood[i] = index                                                     # classifying in-distribution data
-    else:
-        label_of_x_ood[i] = ood_index                                             # classifying out-of-distribution data
-num_of_in_distribution = 0
-for i in range(N_ood):
-    if label_of_x_ood[i] != ood_index:
-        num_of_in_distribution = num_of_in_distribution + 1
-fpr = num_of_in_distribution / N_ood
-print('FPR on out-of-distribution(EMNIST): {:.4f}'.format(fpr), end='\n')
+    # FPR on out-of-distribution(EMNIST dataset) ---------------------------------------------------------------------------
+    N_ood = len(X_ood)  # 10000
+    f_of_x_ood = np.array(sess.run(fullc2, feed_dict={x: X_ood, keep_prob: 1.0}))
+    label_of_x_ood = np.array(range(N_ood))
+    for i in range(N_ood):
+        temp = [None] * num_of_labels
+        for label in range(num_of_labels):
+            temp[label] = list()
+            u = np.reshape(f_of_x_ood[i], (1, num_of_neurons))
+            v = np.reshape(mu_hat[label], (1, num_of_neurons))
+            # temp[label].append(distance.euclidean(u, v, None) ** 2)
+            temp[label].append(distance.mahalanobis(u, v, np.linalg.inv(sigma_hat)) ** 2)
+        dist_data_of_x_ood = np.array(temp)
+        index = np.argmin(dist_data_of_x_ood, 0)  # finding index of the closest label
+        confidence_score_of_x_ood = max_dist_data[index] - dist_data_of_x_ood[index]  # computing confidence score
+        if confidence_score_of_x_ood > threshold:
+            label_of_x_ood[i] = index  # classifying in-distribution data
+        else:
+            label_of_x_ood[i] = ood_index  # classifying out-of-distribution data
+    num_of_in_distribution = 0
+    for i in range(N_ood):
+        if label_of_x_ood[i] != ood_index:
+            num_of_in_distribution = num_of_in_distribution + 1
+    fpr = num_of_in_distribution / N_ood
+    print('FPR on out-of-distribution(ENMIST): {:.4f}'.format(fpr), end='\n')
+    write_data = 'FPR on out-of-distribution(EMNIST): {:.4f}\n'.format(fpr)
+    fp.write(write_data)
+fp.close()
 
 # (distance, threshold, TPR, FPR) = (E , , , ,)
 # (distance, threshold, TPR, FPR) = (M , -2.8, 0.9499, 0.4657 )

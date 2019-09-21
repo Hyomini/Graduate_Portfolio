@@ -1,0 +1,1000 @@
+Classification accuracy on in-distribution: 0.9870
+TPR on in-distribution(MNIST): 0.9979
+FPR on out-of-distribution(EMNIST): 0.8947
+FPR on out-of-distribution(NOTMNIST): 0.7580
+Classification accuracy on in-distribution: 0.9870
+TPR on in-distribution(MNIST): 0.9979
+FPR on out-of-distribution(EMNIST): 0.8934
+FPR on out-of-distribution(NOTMNIST): 0.7561
+Classification accuracy on in-distribution: 0.9870
+TPR on in-distribution(MNIST): 0.9979
+FPR on out-of-distribution(EMNIST): 0.8925
+FPR on out-of-distribution(NOTMNIST): 0.7545
+Classification accuracy on in-distribution: 0.9870
+TPR on in-distribution(MNIST): 0.9979
+FPR on out-of-distribution(EMNIST): 0.8907
+FPR on out-of-distribution(NOTMNIST): 0.7530
+Classification accuracy on in-distribution: 0.9870
+TPR on in-distribution(MNIST): 0.9979
+FPR on out-of-distribution(EMNIST): 0.8897
+FPR on out-of-distribution(NOTMNIST): 0.7504
+Classification accuracy on in-distribution: 0.9870
+TPR on in-distribution(MNIST): 0.9979
+FPR on out-of-distribution(EMNIST): 0.8884
+FPR on out-of-distribution(NOTMNIST): 0.7483
+Classification accuracy on in-distribution: 0.9870
+TPR on in-distribution(MNIST): 0.9979
+FPR on out-of-distribution(EMNIST): 0.8872
+FPR on out-of-distribution(NOTMNIST): 0.7466
+Classification accuracy on in-distribution: 0.9870
+TPR on in-distribution(MNIST): 0.9978
+FPR on out-of-distribution(EMNIST): 0.8864
+FPR on out-of-distribution(NOTMNIST): 0.7449
+Classification accuracy on in-distribution: 0.9870
+TPR on in-distribution(MNIST): 0.9978
+FPR on out-of-distribution(EMNIST): 0.8846
+FPR on out-of-distribution(NOTMNIST): 0.7436
+Classification accuracy on in-distribution: 0.9870
+TPR on in-distribution(MNIST): 0.9978
+FPR on out-of-distribution(EMNIST): 0.8834
+FPR on out-of-distribution(NOTMNIST): 0.7413
+Classification accuracy on in-distribution: 0.9871
+TPR on in-distribution(MNIST): 0.9977
+FPR on out-of-distribution(EMNIST): 0.8817
+FPR on out-of-distribution(NOTMNIST): 0.7398
+Classification accuracy on in-distribution: 0.9871
+TPR on in-distribution(MNIST): 0.9976
+FPR on out-of-distribution(EMNIST): 0.8802
+FPR on out-of-distribution(NOTMNIST): 0.7381
+Classification accuracy on in-distribution: 0.9871
+TPR on in-distribution(MNIST): 0.9976
+FPR on out-of-distribution(EMNIST): 0.8783
+FPR on out-of-distribution(NOTMNIST): 0.7359
+Classification accuracy on in-distribution: 0.9871
+TPR on in-distribution(MNIST): 0.9976
+FPR on out-of-distribution(EMNIST): 0.8768
+FPR on out-of-distribution(NOTMNIST): 0.7345
+Classification accuracy on in-distribution: 0.9871
+TPR on in-distribution(MNIST): 0.9975
+FPR on out-of-distribution(EMNIST): 0.8752
+FPR on out-of-distribution(NOTMNIST): 0.7323
+Classification accuracy on in-distribution: 0.9871
+TPR on in-distribution(MNIST): 0.9974
+FPR on out-of-distribution(EMNIST): 0.8741
+FPR on out-of-distribution(NOTMNIST): 0.7303
+Classification accuracy on in-distribution: 0.9871
+TPR on in-distribution(MNIST): 0.9972
+FPR on out-of-distribution(EMNIST): 0.8719
+FPR on out-of-distribution(NOTMNIST): 0.7282
+Classification accuracy on in-distribution: 0.9871
+TPR on in-distribution(MNIST): 0.9972
+FPR on out-of-distribution(EMNIST): 0.8698
+FPR on out-of-distribution(NOTMNIST): 0.7265
+Classification accuracy on in-distribution: 0.9871
+TPR on in-distribution(MNIST): 0.9971
+FPR on out-of-distribution(EMNIST): 0.8682
+FPR on out-of-distribution(NOTMNIST): 0.7240
+Classification accuracy on in-distribution: 0.9871
+TPR on in-distribution(MNIST): 0.9971
+FPR on out-of-distribution(EMNIST): 0.8667
+FPR on out-of-distribution(NOTMNIST): 0.7219
+Classification accuracy on in-distribution: 0.9871
+TPR on in-distribution(MNIST): 0.9971
+FPR on out-of-distribution(EMNIST): 0.8650
+FPR on out-of-distribution(NOTMNIST): 0.7201
+Classification accuracy on in-distribution: 0.9871
+TPR on in-distribution(MNIST): 0.9970
+FPR on out-of-distribution(EMNIST): 0.8631
+FPR on out-of-distribution(NOTMNIST): 0.7181
+Classification accuracy on in-distribution: 0.9871
+TPR on in-distribution(MNIST): 0.9970
+FPR on out-of-distribution(EMNIST): 0.8616
+FPR on out-of-distribution(NOTMNIST): 0.7163
+Classification accuracy on in-distribution: 0.9872
+TPR on in-distribution(MNIST): 0.9967
+FPR on out-of-distribution(EMNIST): 0.8600
+FPR on out-of-distribution(NOTMNIST): 0.7142
+Classification accuracy on in-distribution: 0.9872
+TPR on in-distribution(MNIST): 0.9967
+FPR on out-of-distribution(EMNIST): 0.8593
+FPR on out-of-distribution(NOTMNIST): 0.7116
+Classification accuracy on in-distribution: 0.9872
+TPR on in-distribution(MNIST): 0.9966
+FPR on out-of-distribution(EMNIST): 0.8569
+FPR on out-of-distribution(NOTMNIST): 0.7094
+Classification accuracy on in-distribution: 0.9872
+TPR on in-distribution(MNIST): 0.9966
+FPR on out-of-distribution(EMNIST): 0.8553
+FPR on out-of-distribution(NOTMNIST): 0.7072
+Classification accuracy on in-distribution: 0.9872
+TPR on in-distribution(MNIST): 0.9964
+FPR on out-of-distribution(EMNIST): 0.8536
+FPR on out-of-distribution(NOTMNIST): 0.7050
+Classification accuracy on in-distribution: 0.9872
+TPR on in-distribution(MNIST): 0.9964
+FPR on out-of-distribution(EMNIST): 0.8519
+FPR on out-of-distribution(NOTMNIST): 0.7031
+Classification accuracy on in-distribution: 0.9872
+TPR on in-distribution(MNIST): 0.9964
+FPR on out-of-distribution(EMNIST): 0.8505
+FPR on out-of-distribution(NOTMNIST): 0.7012
+Classification accuracy on in-distribution: 0.9872
+TPR on in-distribution(MNIST): 0.9964
+FPR on out-of-distribution(EMNIST): 0.8488
+FPR on out-of-distribution(NOTMNIST): 0.6999
+Classification accuracy on in-distribution: 0.9872
+TPR on in-distribution(MNIST): 0.9964
+FPR on out-of-distribution(EMNIST): 0.8471
+FPR on out-of-distribution(NOTMNIST): 0.6983
+Classification accuracy on in-distribution: 0.9872
+TPR on in-distribution(MNIST): 0.9964
+FPR on out-of-distribution(EMNIST): 0.8456
+FPR on out-of-distribution(NOTMNIST): 0.6959
+Classification accuracy on in-distribution: 0.9872
+TPR on in-distribution(MNIST): 0.9963
+FPR on out-of-distribution(EMNIST): 0.8439
+FPR on out-of-distribution(NOTMNIST): 0.6944
+Classification accuracy on in-distribution: 0.9872
+TPR on in-distribution(MNIST): 0.9963
+FPR on out-of-distribution(EMNIST): 0.8419
+FPR on out-of-distribution(NOTMNIST): 0.6919
+Classification accuracy on in-distribution: 0.9872
+TPR on in-distribution(MNIST): 0.9963
+FPR on out-of-distribution(EMNIST): 0.8400
+FPR on out-of-distribution(NOTMNIST): 0.6898
+Classification accuracy on in-distribution: 0.9872
+TPR on in-distribution(MNIST): 0.9963
+FPR on out-of-distribution(EMNIST): 0.8381
+FPR on out-of-distribution(NOTMNIST): 0.6876
+Classification accuracy on in-distribution: 0.9872
+TPR on in-distribution(MNIST): 0.9962
+FPR on out-of-distribution(EMNIST): 0.8358
+FPR on out-of-distribution(NOTMNIST): 0.6858
+Classification accuracy on in-distribution: 0.9873
+TPR on in-distribution(MNIST): 0.9961
+FPR on out-of-distribution(EMNIST): 0.8343
+FPR on out-of-distribution(NOTMNIST): 0.6828
+Classification accuracy on in-distribution: 0.9872
+TPR on in-distribution(MNIST): 0.9960
+FPR on out-of-distribution(EMNIST): 0.8326
+FPR on out-of-distribution(NOTMNIST): 0.6793
+Classification accuracy on in-distribution: 0.9872
+TPR on in-distribution(MNIST): 0.9959
+FPR on out-of-distribution(EMNIST): 0.8301
+FPR on out-of-distribution(NOTMNIST): 0.6779
+Classification accuracy on in-distribution: 0.9873
+TPR on in-distribution(MNIST): 0.9958
+FPR on out-of-distribution(EMNIST): 0.8284
+FPR on out-of-distribution(NOTMNIST): 0.6759
+Classification accuracy on in-distribution: 0.9873
+TPR on in-distribution(MNIST): 0.9958
+FPR on out-of-distribution(EMNIST): 0.8255
+FPR on out-of-distribution(NOTMNIST): 0.6733
+Classification accuracy on in-distribution: 0.9873
+TPR on in-distribution(MNIST): 0.9958
+FPR on out-of-distribution(EMNIST): 0.8227
+FPR on out-of-distribution(NOTMNIST): 0.6708
+Classification accuracy on in-distribution: 0.9873
+TPR on in-distribution(MNIST): 0.9957
+FPR on out-of-distribution(EMNIST): 0.8212
+FPR on out-of-distribution(NOTMNIST): 0.6686
+Classification accuracy on in-distribution: 0.9875
+TPR on in-distribution(MNIST): 0.9954
+FPR on out-of-distribution(EMNIST): 0.8198
+FPR on out-of-distribution(NOTMNIST): 0.6670
+Classification accuracy on in-distribution: 0.9875
+TPR on in-distribution(MNIST): 0.9954
+FPR on out-of-distribution(EMNIST): 0.8175
+FPR on out-of-distribution(NOTMNIST): 0.6646
+Classification accuracy on in-distribution: 0.9875
+TPR on in-distribution(MNIST): 0.9954
+FPR on out-of-distribution(EMNIST): 0.8152
+FPR on out-of-distribution(NOTMNIST): 0.6614
+Classification accuracy on in-distribution: 0.9875
+TPR on in-distribution(MNIST): 0.9953
+FPR on out-of-distribution(EMNIST): 0.8137
+FPR on out-of-distribution(NOTMNIST): 0.6584
+Classification accuracy on in-distribution: 0.9875
+TPR on in-distribution(MNIST): 0.9953
+FPR on out-of-distribution(EMNIST): 0.8119
+FPR on out-of-distribution(NOTMNIST): 0.6559
+Classification accuracy on in-distribution: 0.9876
+TPR on in-distribution(MNIST): 0.9952
+FPR on out-of-distribution(EMNIST): 0.8098
+FPR on out-of-distribution(NOTMNIST): 0.6535
+Classification accuracy on in-distribution: 0.9877
+TPR on in-distribution(MNIST): 0.9949
+FPR on out-of-distribution(EMNIST): 0.8078
+FPR on out-of-distribution(NOTMNIST): 0.6519
+Classification accuracy on in-distribution: 0.9877
+TPR on in-distribution(MNIST): 0.9949
+FPR on out-of-distribution(EMNIST): 0.8053
+FPR on out-of-distribution(NOTMNIST): 0.6489
+Classification accuracy on in-distribution: 0.9878
+TPR on in-distribution(MNIST): 0.9948
+FPR on out-of-distribution(EMNIST): 0.8024
+FPR on out-of-distribution(NOTMNIST): 0.6465
+Classification accuracy on in-distribution: 0.9878
+TPR on in-distribution(MNIST): 0.9948
+FPR on out-of-distribution(EMNIST): 0.7997
+FPR on out-of-distribution(NOTMNIST): 0.6437
+Classification accuracy on in-distribution: 0.9878
+TPR on in-distribution(MNIST): 0.9947
+FPR on out-of-distribution(EMNIST): 0.7969
+FPR on out-of-distribution(NOTMNIST): 0.6409
+Classification accuracy on in-distribution: 0.9878
+TPR on in-distribution(MNIST): 0.9945
+FPR on out-of-distribution(EMNIST): 0.7947
+FPR on out-of-distribution(NOTMNIST): 0.6392
+Classification accuracy on in-distribution: 0.9878
+TPR on in-distribution(MNIST): 0.9944
+FPR on out-of-distribution(EMNIST): 0.7917
+FPR on out-of-distribution(NOTMNIST): 0.6365
+Classification accuracy on in-distribution: 0.9878
+TPR on in-distribution(MNIST): 0.9943
+FPR on out-of-distribution(EMNIST): 0.7893
+FPR on out-of-distribution(NOTMNIST): 0.6345
+Classification accuracy on in-distribution: 0.9879
+TPR on in-distribution(MNIST): 0.9942
+FPR on out-of-distribution(EMNIST): 0.7868
+FPR on out-of-distribution(NOTMNIST): 0.6320
+Classification accuracy on in-distribution: 0.9879
+TPR on in-distribution(MNIST): 0.9941
+FPR on out-of-distribution(EMNIST): 0.7847
+FPR on out-of-distribution(NOTMNIST): 0.6291
+Classification accuracy on in-distribution: 0.9879
+TPR on in-distribution(MNIST): 0.9940
+FPR on out-of-distribution(EMNIST): 0.7830
+FPR on out-of-distribution(NOTMNIST): 0.6262
+Classification accuracy on in-distribution: 0.9880
+TPR on in-distribution(MNIST): 0.9938
+FPR on out-of-distribution(EMNIST): 0.7799
+FPR on out-of-distribution(NOTMNIST): 0.6241
+Classification accuracy on in-distribution: 0.9880
+TPR on in-distribution(MNIST): 0.9936
+FPR on out-of-distribution(EMNIST): 0.7775
+FPR on out-of-distribution(NOTMNIST): 0.6212
+Classification accuracy on in-distribution: 0.9880
+TPR on in-distribution(MNIST): 0.9935
+FPR on out-of-distribution(EMNIST): 0.7752
+FPR on out-of-distribution(NOTMNIST): 0.6176
+Classification accuracy on in-distribution: 0.9881
+TPR on in-distribution(MNIST): 0.9933
+FPR on out-of-distribution(EMNIST): 0.7728
+FPR on out-of-distribution(NOTMNIST): 0.6141
+Classification accuracy on in-distribution: 0.9881
+TPR on in-distribution(MNIST): 0.9933
+FPR on out-of-distribution(EMNIST): 0.7701
+FPR on out-of-distribution(NOTMNIST): 0.6114
+Classification accuracy on in-distribution: 0.9882
+TPR on in-distribution(MNIST): 0.9931
+FPR on out-of-distribution(EMNIST): 0.7661
+FPR on out-of-distribution(NOTMNIST): 0.6086
+Classification accuracy on in-distribution: 0.9882
+TPR on in-distribution(MNIST): 0.9929
+FPR on out-of-distribution(EMNIST): 0.7629
+FPR on out-of-distribution(NOTMNIST): 0.6062
+Classification accuracy on in-distribution: 0.9883
+TPR on in-distribution(MNIST): 0.9927
+FPR on out-of-distribution(EMNIST): 0.7607
+FPR on out-of-distribution(NOTMNIST): 0.6043
+Classification accuracy on in-distribution: 0.9883
+TPR on in-distribution(MNIST): 0.9925
+FPR on out-of-distribution(EMNIST): 0.7584
+FPR on out-of-distribution(NOTMNIST): 0.6005
+Classification accuracy on in-distribution: 0.9883
+TPR on in-distribution(MNIST): 0.9924
+FPR on out-of-distribution(EMNIST): 0.7548
+FPR on out-of-distribution(NOTMNIST): 0.5974
+Classification accuracy on in-distribution: 0.9883
+TPR on in-distribution(MNIST): 0.9923
+FPR on out-of-distribution(EMNIST): 0.7521
+FPR on out-of-distribution(NOTMNIST): 0.5952
+Classification accuracy on in-distribution: 0.9883
+TPR on in-distribution(MNIST): 0.9922
+FPR on out-of-distribution(EMNIST): 0.7492
+FPR on out-of-distribution(NOTMNIST): 0.5923
+Classification accuracy on in-distribution: 0.9885
+TPR on in-distribution(MNIST): 0.9918
+FPR on out-of-distribution(EMNIST): 0.7461
+FPR on out-of-distribution(NOTMNIST): 0.5904
+Classification accuracy on in-distribution: 0.9886
+TPR on in-distribution(MNIST): 0.9917
+FPR on out-of-distribution(EMNIST): 0.7435
+FPR on out-of-distribution(NOTMNIST): 0.5866
+Classification accuracy on in-distribution: 0.9886
+TPR on in-distribution(MNIST): 0.9914
+FPR on out-of-distribution(EMNIST): 0.7409
+FPR on out-of-distribution(NOTMNIST): 0.5842
+Classification accuracy on in-distribution: 0.9886
+TPR on in-distribution(MNIST): 0.9913
+FPR on out-of-distribution(EMNIST): 0.7383
+FPR on out-of-distribution(NOTMNIST): 0.5808
+Classification accuracy on in-distribution: 0.9886
+TPR on in-distribution(MNIST): 0.9912
+FPR on out-of-distribution(EMNIST): 0.7354
+FPR on out-of-distribution(NOTMNIST): 0.5777
+Classification accuracy on in-distribution: 0.9887
+TPR on in-distribution(MNIST): 0.9910
+FPR on out-of-distribution(EMNIST): 0.7323
+FPR on out-of-distribution(NOTMNIST): 0.5757
+Classification accuracy on in-distribution: 0.9888
+TPR on in-distribution(MNIST): 0.9909
+FPR on out-of-distribution(EMNIST): 0.7291
+FPR on out-of-distribution(NOTMNIST): 0.5726
+Classification accuracy on in-distribution: 0.9888
+TPR on in-distribution(MNIST): 0.9909
+FPR on out-of-distribution(EMNIST): 0.7252
+FPR on out-of-distribution(NOTMNIST): 0.5685
+Classification accuracy on in-distribution: 0.9888
+TPR on in-distribution(MNIST): 0.9908
+FPR on out-of-distribution(EMNIST): 0.7217
+FPR on out-of-distribution(NOTMNIST): 0.5665
+Classification accuracy on in-distribution: 0.9889
+TPR on in-distribution(MNIST): 0.9906
+FPR on out-of-distribution(EMNIST): 0.7184
+FPR on out-of-distribution(NOTMNIST): 0.5637
+Classification accuracy on in-distribution: 0.9889
+TPR on in-distribution(MNIST): 0.9903
+FPR on out-of-distribution(EMNIST): 0.7151
+FPR on out-of-distribution(NOTMNIST): 0.5606
+Classification accuracy on in-distribution: 0.9889
+TPR on in-distribution(MNIST): 0.9901
+FPR on out-of-distribution(EMNIST): 0.7115
+FPR on out-of-distribution(NOTMNIST): 0.5571
+Classification accuracy on in-distribution: 0.9889
+TPR on in-distribution(MNIST): 0.9898
+FPR on out-of-distribution(EMNIST): 0.7087
+FPR on out-of-distribution(NOTMNIST): 0.5541
+Classification accuracy on in-distribution: 0.9890
+TPR on in-distribution(MNIST): 0.9896
+FPR on out-of-distribution(EMNIST): 0.7051
+FPR on out-of-distribution(NOTMNIST): 0.5496
+Classification accuracy on in-distribution: 0.9890
+TPR on in-distribution(MNIST): 0.9889
+FPR on out-of-distribution(EMNIST): 0.7006
+FPR on out-of-distribution(NOTMNIST): 0.5475
+Classification accuracy on in-distribution: 0.9891
+TPR on in-distribution(MNIST): 0.9886
+FPR on out-of-distribution(EMNIST): 0.6972
+FPR on out-of-distribution(NOTMNIST): 0.5437
+Classification accuracy on in-distribution: 0.9891
+TPR on in-distribution(MNIST): 0.9886
+FPR on out-of-distribution(EMNIST): 0.6950
+FPR on out-of-distribution(NOTMNIST): 0.5407
+Classification accuracy on in-distribution: 0.9891
+TPR on in-distribution(MNIST): 0.9883
+FPR on out-of-distribution(EMNIST): 0.6916
+FPR on out-of-distribution(NOTMNIST): 0.5360
+Classification accuracy on in-distribution: 0.9891
+TPR on in-distribution(MNIST): 0.9880
+FPR on out-of-distribution(EMNIST): 0.6879
+FPR on out-of-distribution(NOTMNIST): 0.5334
+Classification accuracy on in-distribution: 0.9892
+TPR on in-distribution(MNIST): 0.9874
+FPR on out-of-distribution(EMNIST): 0.6848
+FPR on out-of-distribution(NOTMNIST): 0.5313
+Classification accuracy on in-distribution: 0.9892
+TPR on in-distribution(MNIST): 0.9871
+FPR on out-of-distribution(EMNIST): 0.6812
+FPR on out-of-distribution(NOTMNIST): 0.5286
+Classification accuracy on in-distribution: 0.9893
+TPR on in-distribution(MNIST): 0.9868
+FPR on out-of-distribution(EMNIST): 0.6778
+FPR on out-of-distribution(NOTMNIST): 0.5257
+Classification accuracy on in-distribution: 0.9893
+TPR on in-distribution(MNIST): 0.9863
+FPR on out-of-distribution(EMNIST): 0.6744
+FPR on out-of-distribution(NOTMNIST): 0.5224
+Classification accuracy on in-distribution: 0.9892
+TPR on in-distribution(MNIST): 0.9859
+FPR on out-of-distribution(EMNIST): 0.6713
+FPR on out-of-distribution(NOTMNIST): 0.5200
+Classification accuracy on in-distribution: 0.9892
+TPR on in-distribution(MNIST): 0.9855
+FPR on out-of-distribution(EMNIST): 0.6657
+FPR on out-of-distribution(NOTMNIST): 0.5178
+Classification accuracy on in-distribution: 0.9892
+TPR on in-distribution(MNIST): 0.9846
+FPR on out-of-distribution(EMNIST): 0.6627
+FPR on out-of-distribution(NOTMNIST): 0.5154
+Classification accuracy on in-distribution: 0.9892
+TPR on in-distribution(MNIST): 0.9843
+FPR on out-of-distribution(EMNIST): 0.6589
+FPR on out-of-distribution(NOTMNIST): 0.5113
+Classification accuracy on in-distribution: 0.9892
+TPR on in-distribution(MNIST): 0.9839
+FPR on out-of-distribution(EMNIST): 0.6552
+FPR on out-of-distribution(NOTMNIST): 0.5088
+Classification accuracy on in-distribution: 0.9892
+TPR on in-distribution(MNIST): 0.9837
+FPR on out-of-distribution(EMNIST): 0.6515
+FPR on out-of-distribution(NOTMNIST): 0.5047
+Classification accuracy on in-distribution: 0.9894
+TPR on in-distribution(MNIST): 0.9832
+FPR on out-of-distribution(EMNIST): 0.6461
+FPR on out-of-distribution(NOTMNIST): 0.5013
+Classification accuracy on in-distribution: 0.9894
+TPR on in-distribution(MNIST): 0.9829
+FPR on out-of-distribution(EMNIST): 0.6418
+FPR on out-of-distribution(NOTMNIST): 0.4986
+Classification accuracy on in-distribution: 0.9894
+TPR on in-distribution(MNIST): 0.9825
+FPR on out-of-distribution(EMNIST): 0.6379
+FPR on out-of-distribution(NOTMNIST): 0.4960
+Classification accuracy on in-distribution: 0.9895
+TPR on in-distribution(MNIST): 0.9820
+FPR on out-of-distribution(EMNIST): 0.6330
+FPR on out-of-distribution(NOTMNIST): 0.4923
+Classification accuracy on in-distribution: 0.9895
+TPR on in-distribution(MNIST): 0.9818
+FPR on out-of-distribution(EMNIST): 0.6280
+FPR on out-of-distribution(NOTMNIST): 0.4896
+Classification accuracy on in-distribution: 0.9895
+TPR on in-distribution(MNIST): 0.9815
+FPR on out-of-distribution(EMNIST): 0.6242
+FPR on out-of-distribution(NOTMNIST): 0.4856
+Classification accuracy on in-distribution: 0.9898
+TPR on in-distribution(MNIST): 0.9806
+FPR on out-of-distribution(EMNIST): 0.6202
+FPR on out-of-distribution(NOTMNIST): 0.4814
+Classification accuracy on in-distribution: 0.9898
+TPR on in-distribution(MNIST): 0.9805
+FPR on out-of-distribution(EMNIST): 0.6152
+FPR on out-of-distribution(NOTMNIST): 0.4777
+Classification accuracy on in-distribution: 0.9899
+TPR on in-distribution(MNIST): 0.9795
+FPR on out-of-distribution(EMNIST): 0.6108
+FPR on out-of-distribution(NOTMNIST): 0.4742
+Classification accuracy on in-distribution: 0.9900
+TPR on in-distribution(MNIST): 0.9792
+FPR on out-of-distribution(EMNIST): 0.6062
+FPR on out-of-distribution(NOTMNIST): 0.4711
+Classification accuracy on in-distribution: 0.9902
+TPR on in-distribution(MNIST): 0.9787
+FPR on out-of-distribution(EMNIST): 0.6022
+FPR on out-of-distribution(NOTMNIST): 0.4675
+Classification accuracy on in-distribution: 0.9903
+TPR on in-distribution(MNIST): 0.9784
+FPR on out-of-distribution(EMNIST): 0.5975
+FPR on out-of-distribution(NOTMNIST): 0.4637
+Classification accuracy on in-distribution: 0.9904
+TPR on in-distribution(MNIST): 0.9779
+FPR on out-of-distribution(EMNIST): 0.5939
+FPR on out-of-distribution(NOTMNIST): 0.4587
+Classification accuracy on in-distribution: 0.9904
+TPR on in-distribution(MNIST): 0.9776
+FPR on out-of-distribution(EMNIST): 0.5903
+FPR on out-of-distribution(NOTMNIST): 0.4555
+Classification accuracy on in-distribution: 0.9904
+TPR on in-distribution(MNIST): 0.9768
+FPR on out-of-distribution(EMNIST): 0.5857
+FPR on out-of-distribution(NOTMNIST): 0.4505
+Classification accuracy on in-distribution: 0.9906
+TPR on in-distribution(MNIST): 0.9759
+FPR on out-of-distribution(EMNIST): 0.5796
+FPR on out-of-distribution(NOTMNIST): 0.4478
+Classification accuracy on in-distribution: 0.9906
+TPR on in-distribution(MNIST): 0.9750
+FPR on out-of-distribution(EMNIST): 0.5743
+FPR on out-of-distribution(NOTMNIST): 0.4446
+Classification accuracy on in-distribution: 0.9906
+TPR on in-distribution(MNIST): 0.9747
+FPR on out-of-distribution(EMNIST): 0.5683
+FPR on out-of-distribution(NOTMNIST): 0.4409
+Classification accuracy on in-distribution: 0.9907
+TPR on in-distribution(MNIST): 0.9737
+FPR on out-of-distribution(EMNIST): 0.5637
+FPR on out-of-distribution(NOTMNIST): 0.4374
+Classification accuracy on in-distribution: 0.9911
+TPR on in-distribution(MNIST): 0.9729
+FPR on out-of-distribution(EMNIST): 0.5588
+FPR on out-of-distribution(NOTMNIST): 0.4340
+Classification accuracy on in-distribution: 0.9911
+TPR on in-distribution(MNIST): 0.9724
+FPR on out-of-distribution(EMNIST): 0.5541
+FPR on out-of-distribution(NOTMNIST): 0.4289
+Classification accuracy on in-distribution: 0.9910
+TPR on in-distribution(MNIST): 0.9718
+FPR on out-of-distribution(EMNIST): 0.5484
+FPR on out-of-distribution(NOTMNIST): 0.4246
+Classification accuracy on in-distribution: 0.9911
+TPR on in-distribution(MNIST): 0.9711
+FPR on out-of-distribution(EMNIST): 0.5443
+FPR on out-of-distribution(NOTMNIST): 0.4214
+Classification accuracy on in-distribution: 0.9912
+TPR on in-distribution(MNIST): 0.9704
+FPR on out-of-distribution(EMNIST): 0.5377
+FPR on out-of-distribution(NOTMNIST): 0.4171
+Classification accuracy on in-distribution: 0.9913
+TPR on in-distribution(MNIST): 0.9690
+FPR on out-of-distribution(EMNIST): 0.5326
+FPR on out-of-distribution(NOTMNIST): 0.4133
+Classification accuracy on in-distribution: 0.9914
+TPR on in-distribution(MNIST): 0.9686
+FPR on out-of-distribution(EMNIST): 0.5270
+FPR on out-of-distribution(NOTMNIST): 0.4087
+Classification accuracy on in-distribution: 0.9917
+TPR on in-distribution(MNIST): 0.9677
+FPR on out-of-distribution(EMNIST): 0.5216
+FPR on out-of-distribution(NOTMNIST): 0.4058
+Classification accuracy on in-distribution: 0.9918
+TPR on in-distribution(MNIST): 0.9669
+FPR on out-of-distribution(EMNIST): 0.5164
+FPR on out-of-distribution(NOTMNIST): 0.4007
+Classification accuracy on in-distribution: 0.9918
+TPR on in-distribution(MNIST): 0.9663
+FPR on out-of-distribution(EMNIST): 0.5102
+FPR on out-of-distribution(NOTMNIST): 0.3974
+Classification accuracy on in-distribution: 0.9919
+TPR on in-distribution(MNIST): 0.9652
+FPR on out-of-distribution(EMNIST): 0.5056
+FPR on out-of-distribution(NOTMNIST): 0.3937
+Classification accuracy on in-distribution: 0.9921
+TPR on in-distribution(MNIST): 0.9645
+FPR on out-of-distribution(EMNIST): 0.4998
+FPR on out-of-distribution(NOTMNIST): 0.3895
+Classification accuracy on in-distribution: 0.9922
+TPR on in-distribution(MNIST): 0.9637
+FPR on out-of-distribution(EMNIST): 0.4940
+FPR on out-of-distribution(NOTMNIST): 0.3863
+Classification accuracy on in-distribution: 0.9924
+TPR on in-distribution(MNIST): 0.9625
+FPR on out-of-distribution(EMNIST): 0.4868
+FPR on out-of-distribution(NOTMNIST): 0.3823
+Classification accuracy on in-distribution: 0.9924
+TPR on in-distribution(MNIST): 0.9617
+FPR on out-of-distribution(EMNIST): 0.4823
+FPR on out-of-distribution(NOTMNIST): 0.3787
+Classification accuracy on in-distribution: 0.9926
+TPR on in-distribution(MNIST): 0.9607
+FPR on out-of-distribution(EMNIST): 0.4765
+FPR on out-of-distribution(NOTMNIST): 0.3755
+Classification accuracy on in-distribution: 0.9927
+TPR on in-distribution(MNIST): 0.9602
+FPR on out-of-distribution(EMNIST): 0.4693
+FPR on out-of-distribution(NOTMNIST): 0.3708
+Classification accuracy on in-distribution: 0.9927
+TPR on in-distribution(MNIST): 0.9593
+FPR on out-of-distribution(EMNIST): 0.4636
+FPR on out-of-distribution(NOTMNIST): 0.3658
+Classification accuracy on in-distribution: 0.9928
+TPR on in-distribution(MNIST): 0.9584
+FPR on out-of-distribution(EMNIST): 0.4580
+FPR on out-of-distribution(NOTMNIST): 0.3615
+Classification accuracy on in-distribution: 0.9930
+TPR on in-distribution(MNIST): 0.9573
+FPR on out-of-distribution(EMNIST): 0.4528
+FPR on out-of-distribution(NOTMNIST): 0.3583
+Classification accuracy on in-distribution: 0.9931
+TPR on in-distribution(MNIST): 0.9564
+FPR on out-of-distribution(EMNIST): 0.4466
+FPR on out-of-distribution(NOTMNIST): 0.3538
+Classification accuracy on in-distribution: 0.9932
+TPR on in-distribution(MNIST): 0.9547
+FPR on out-of-distribution(EMNIST): 0.4397
+FPR on out-of-distribution(NOTMNIST): 0.3488
+Classification accuracy on in-distribution: 0.9932
+TPR on in-distribution(MNIST): 0.9535
+FPR on out-of-distribution(EMNIST): 0.4334
+FPR on out-of-distribution(NOTMNIST): 0.3438
+Classification accuracy on in-distribution: 0.9932
+TPR on in-distribution(MNIST): 0.9526
+FPR on out-of-distribution(EMNIST): 0.4267
+FPR on out-of-distribution(NOTMNIST): 0.3393
+Classification accuracy on in-distribution: 0.9934
+TPR on in-distribution(MNIST): 0.9519
+FPR on out-of-distribution(EMNIST): 0.4215
+FPR on out-of-distribution(NOTMNIST): 0.3334
+Classification accuracy on in-distribution: 0.9935
+TPR on in-distribution(MNIST): 0.9503
+FPR on out-of-distribution(EMNIST): 0.4156
+FPR on out-of-distribution(NOTMNIST): 0.3288
+Classification accuracy on in-distribution: 0.9936
+TPR on in-distribution(MNIST): 0.9487
+FPR on out-of-distribution(EMNIST): 0.4087
+FPR on out-of-distribution(NOTMNIST): 0.3247
+Classification accuracy on in-distribution: 0.9938
+TPR on in-distribution(MNIST): 0.9478
+FPR on out-of-distribution(EMNIST): 0.4023
+FPR on out-of-distribution(NOTMNIST): 0.3205
+Classification accuracy on in-distribution: 0.9940
+TPR on in-distribution(MNIST): 0.9461
+FPR on out-of-distribution(EMNIST): 0.3974
+FPR on out-of-distribution(NOTMNIST): 0.3169
+Classification accuracy on in-distribution: 0.9941
+TPR on in-distribution(MNIST): 0.9449
+FPR on out-of-distribution(EMNIST): 0.3908
+FPR on out-of-distribution(NOTMNIST): 0.3124
+Classification accuracy on in-distribution: 0.9942
+TPR on in-distribution(MNIST): 0.9433
+FPR on out-of-distribution(EMNIST): 0.3845
+FPR on out-of-distribution(NOTMNIST): 0.3080
+Classification accuracy on in-distribution: 0.9943
+TPR on in-distribution(MNIST): 0.9414
+FPR on out-of-distribution(EMNIST): 0.3786
+FPR on out-of-distribution(NOTMNIST): 0.3023
+Classification accuracy on in-distribution: 0.9944
+TPR on in-distribution(MNIST): 0.9405
+FPR on out-of-distribution(EMNIST): 0.3727
+FPR on out-of-distribution(NOTMNIST): 0.2976
+Classification accuracy on in-distribution: 0.9946
+TPR on in-distribution(MNIST): 0.9387
+FPR on out-of-distribution(EMNIST): 0.3670
+FPR on out-of-distribution(NOTMNIST): 0.2919
+Classification accuracy on in-distribution: 0.9950
+TPR on in-distribution(MNIST): 0.9373
+FPR on out-of-distribution(EMNIST): 0.3611
+FPR on out-of-distribution(NOTMNIST): 0.2871
+Classification accuracy on in-distribution: 0.9950
+TPR on in-distribution(MNIST): 0.9358
+FPR on out-of-distribution(EMNIST): 0.3536
+FPR on out-of-distribution(NOTMNIST): 0.2830
+Classification accuracy on in-distribution: 0.9951
+TPR on in-distribution(MNIST): 0.9341
+FPR on out-of-distribution(EMNIST): 0.3474
+FPR on out-of-distribution(NOTMNIST): 0.2785
+Classification accuracy on in-distribution: 0.9953
+TPR on in-distribution(MNIST): 0.9322
+FPR on out-of-distribution(EMNIST): 0.3416
+FPR on out-of-distribution(NOTMNIST): 0.2749
+Classification accuracy on in-distribution: 0.9953
+TPR on in-distribution(MNIST): 0.9311
+FPR on out-of-distribution(EMNIST): 0.3358
+FPR on out-of-distribution(NOTMNIST): 0.2703
+Classification accuracy on in-distribution: 0.9954
+TPR on in-distribution(MNIST): 0.9298
+FPR on out-of-distribution(EMNIST): 0.3293
+FPR on out-of-distribution(NOTMNIST): 0.2650
+Classification accuracy on in-distribution: 0.9956
+TPR on in-distribution(MNIST): 0.9277
+FPR on out-of-distribution(EMNIST): 0.3236
+FPR on out-of-distribution(NOTMNIST): 0.2605
+Classification accuracy on in-distribution: 0.9957
+TPR on in-distribution(MNIST): 0.9259
+FPR on out-of-distribution(EMNIST): 0.3186
+FPR on out-of-distribution(NOTMNIST): 0.2550
+Classification accuracy on in-distribution: 0.9959
+TPR on in-distribution(MNIST): 0.9236
+FPR on out-of-distribution(EMNIST): 0.3117
+FPR on out-of-distribution(NOTMNIST): 0.2495
+Classification accuracy on in-distribution: 0.9960
+TPR on in-distribution(MNIST): 0.9219
+FPR on out-of-distribution(EMNIST): 0.3050
+FPR on out-of-distribution(NOTMNIST): 0.2447
+Classification accuracy on in-distribution: 0.9962
+TPR on in-distribution(MNIST): 0.9203
+FPR on out-of-distribution(EMNIST): 0.2982
+FPR on out-of-distribution(NOTMNIST): 0.2389
+Classification accuracy on in-distribution: 0.9965
+TPR on in-distribution(MNIST): 0.9174
+FPR on out-of-distribution(EMNIST): 0.2909
+FPR on out-of-distribution(NOTMNIST): 0.2341
+Classification accuracy on in-distribution: 0.9965
+TPR on in-distribution(MNIST): 0.9147
+FPR on out-of-distribution(EMNIST): 0.2854
+FPR on out-of-distribution(NOTMNIST): 0.2288
+Classification accuracy on in-distribution: 0.9967
+TPR on in-distribution(MNIST): 0.9106
+FPR on out-of-distribution(EMNIST): 0.2792
+FPR on out-of-distribution(NOTMNIST): 0.2226
+Classification accuracy on in-distribution: 0.9967
+TPR on in-distribution(MNIST): 0.9085
+FPR on out-of-distribution(EMNIST): 0.2728
+FPR on out-of-distribution(NOTMNIST): 0.2168
+Classification accuracy on in-distribution: 0.9968
+TPR on in-distribution(MNIST): 0.9062
+FPR on out-of-distribution(EMNIST): 0.2671
+FPR on out-of-distribution(NOTMNIST): 0.2108
+Classification accuracy on in-distribution: 0.9968
+TPR on in-distribution(MNIST): 0.9039
+FPR on out-of-distribution(EMNIST): 0.2619
+FPR on out-of-distribution(NOTMNIST): 0.2041
+Classification accuracy on in-distribution: 0.9968
+TPR on in-distribution(MNIST): 0.9010
+FPR on out-of-distribution(EMNIST): 0.2559
+FPR on out-of-distribution(NOTMNIST): 0.1991
+Classification accuracy on in-distribution: 0.9968
+TPR on in-distribution(MNIST): 0.8983
+FPR on out-of-distribution(EMNIST): 0.2505
+FPR on out-of-distribution(NOTMNIST): 0.1928
+Classification accuracy on in-distribution: 0.9969
+TPR on in-distribution(MNIST): 0.8949
+FPR on out-of-distribution(EMNIST): 0.2447
+FPR on out-of-distribution(NOTMNIST): 0.1869
+Classification accuracy on in-distribution: 0.9970
+TPR on in-distribution(MNIST): 0.8925
+FPR on out-of-distribution(EMNIST): 0.2393
+FPR on out-of-distribution(NOTMNIST): 0.1816
+Classification accuracy on in-distribution: 0.9971
+TPR on in-distribution(MNIST): 0.8888
+FPR on out-of-distribution(EMNIST): 0.2343
+FPR on out-of-distribution(NOTMNIST): 0.1754
+Classification accuracy on in-distribution: 0.9972
+TPR on in-distribution(MNIST): 0.8864
+FPR on out-of-distribution(EMNIST): 0.2292
+FPR on out-of-distribution(NOTMNIST): 0.1700
+Classification accuracy on in-distribution: 0.9973
+TPR on in-distribution(MNIST): 0.8836
+FPR on out-of-distribution(EMNIST): 0.2245
+FPR on out-of-distribution(NOTMNIST): 0.1645
+Classification accuracy on in-distribution: 0.9973
+TPR on in-distribution(MNIST): 0.8801
+FPR on out-of-distribution(EMNIST): 0.2191
+FPR on out-of-distribution(NOTMNIST): 0.1582
+Classification accuracy on in-distribution: 0.9973
+TPR on in-distribution(MNIST): 0.8764
+FPR on out-of-distribution(EMNIST): 0.2143
+FPR on out-of-distribution(NOTMNIST): 0.1524
+Classification accuracy on in-distribution: 0.9975
+TPR on in-distribution(MNIST): 0.8733
+FPR on out-of-distribution(EMNIST): 0.2090
+FPR on out-of-distribution(NOTMNIST): 0.1465
+Classification accuracy on in-distribution: 0.9976
+TPR on in-distribution(MNIST): 0.8701
+FPR on out-of-distribution(EMNIST): 0.2045
+FPR on out-of-distribution(NOTMNIST): 0.1406
+Classification accuracy on in-distribution: 0.9978
+TPR on in-distribution(MNIST): 0.8664
+FPR on out-of-distribution(EMNIST): 0.1995
+FPR on out-of-distribution(NOTMNIST): 0.1342
+Classification accuracy on in-distribution: 0.9978
+TPR on in-distribution(MNIST): 0.8632
+FPR on out-of-distribution(EMNIST): 0.1947
+FPR on out-of-distribution(NOTMNIST): 0.1276
+Classification accuracy on in-distribution: 0.9979
+TPR on in-distribution(MNIST): 0.8586
+FPR on out-of-distribution(EMNIST): 0.1900
+FPR on out-of-distribution(NOTMNIST): 0.1216
+Classification accuracy on in-distribution: 0.9980
+TPR on in-distribution(MNIST): 0.8537
+FPR on out-of-distribution(EMNIST): 0.1856
+FPR on out-of-distribution(NOTMNIST): 0.1170
+Classification accuracy on in-distribution: 0.9980
+TPR on in-distribution(MNIST): 0.8489
+FPR on out-of-distribution(EMNIST): 0.1814
+FPR on out-of-distribution(NOTMNIST): 0.1094
+Classification accuracy on in-distribution: 0.9980
+TPR on in-distribution(MNIST): 0.8445
+FPR on out-of-distribution(EMNIST): 0.1759
+FPR on out-of-distribution(NOTMNIST): 0.1041
+Classification accuracy on in-distribution: 0.9980
+TPR on in-distribution(MNIST): 0.8397
+FPR on out-of-distribution(EMNIST): 0.1723
+FPR on out-of-distribution(NOTMNIST): 0.0990
+Classification accuracy on in-distribution: 0.9980
+TPR on in-distribution(MNIST): 0.8343
+FPR on out-of-distribution(EMNIST): 0.1670
+FPR on out-of-distribution(NOTMNIST): 0.0949
+Classification accuracy on in-distribution: 0.9981
+TPR on in-distribution(MNIST): 0.8295
+FPR on out-of-distribution(EMNIST): 0.1624
+FPR on out-of-distribution(NOTMNIST): 0.0911
+Classification accuracy on in-distribution: 0.9982
+TPR on in-distribution(MNIST): 0.8237
+FPR on out-of-distribution(EMNIST): 0.1585
+FPR on out-of-distribution(NOTMNIST): 0.0873
+Classification accuracy on in-distribution: 0.9983
+TPR on in-distribution(MNIST): 0.8195
+FPR on out-of-distribution(EMNIST): 0.1535
+FPR on out-of-distribution(NOTMNIST): 0.0827
+Classification accuracy on in-distribution: 0.9984
+TPR on in-distribution(MNIST): 0.8139
+FPR on out-of-distribution(EMNIST): 0.1488
+FPR on out-of-distribution(NOTMNIST): 0.0781
+Classification accuracy on in-distribution: 0.9984
+TPR on in-distribution(MNIST): 0.8084
+FPR on out-of-distribution(EMNIST): 0.1423
+FPR on out-of-distribution(NOTMNIST): 0.0747
+Classification accuracy on in-distribution: 0.9985
+TPR on in-distribution(MNIST): 0.8022
+FPR on out-of-distribution(EMNIST): 0.1380
+FPR on out-of-distribution(NOTMNIST): 0.0719
+Classification accuracy on in-distribution: 0.9985
+TPR on in-distribution(MNIST): 0.7965
+FPR on out-of-distribution(EMNIST): 0.1339
+FPR on out-of-distribution(NOTMNIST): 0.0690
+Classification accuracy on in-distribution: 0.9986
+TPR on in-distribution(MNIST): 0.7904
+FPR on out-of-distribution(EMNIST): 0.1290
+FPR on out-of-distribution(NOTMNIST): 0.0650
+Classification accuracy on in-distribution: 0.9986
+TPR on in-distribution(MNIST): 0.7853
+FPR on out-of-distribution(EMNIST): 0.1251
+FPR on out-of-distribution(NOTMNIST): 0.0619
+Classification accuracy on in-distribution: 0.9988
+TPR on in-distribution(MNIST): 0.7793
+FPR on out-of-distribution(EMNIST): 0.1214
+FPR on out-of-distribution(NOTMNIST): 0.0594
+Classification accuracy on in-distribution: 0.9988
+TPR on in-distribution(MNIST): 0.7717
+FPR on out-of-distribution(EMNIST): 0.1183
+FPR on out-of-distribution(NOTMNIST): 0.0569
+Classification accuracy on in-distribution: 0.9988
+TPR on in-distribution(MNIST): 0.7648
+FPR on out-of-distribution(EMNIST): 0.1146
+FPR on out-of-distribution(NOTMNIST): 0.0543
+Classification accuracy on in-distribution: 0.9988
+TPR on in-distribution(MNIST): 0.7573
+FPR on out-of-distribution(EMNIST): 0.1111
+FPR on out-of-distribution(NOTMNIST): 0.0499
+Classification accuracy on in-distribution: 0.9988
+TPR on in-distribution(MNIST): 0.7498
+FPR on out-of-distribution(EMNIST): 0.1076
+FPR on out-of-distribution(NOTMNIST): 0.0469
+Classification accuracy on in-distribution: 0.9989
+TPR on in-distribution(MNIST): 0.7425
+FPR on out-of-distribution(EMNIST): 0.1048
+FPR on out-of-distribution(NOTMNIST): 0.0445
+Classification accuracy on in-distribution: 0.9990
+TPR on in-distribution(MNIST): 0.7333
+FPR on out-of-distribution(EMNIST): 0.1017
+FPR on out-of-distribution(NOTMNIST): 0.0418
+Classification accuracy on in-distribution: 0.9990
+TPR on in-distribution(MNIST): 0.7255
+FPR on out-of-distribution(EMNIST): 0.0983
+FPR on out-of-distribution(NOTMNIST): 0.0387
+Classification accuracy on in-distribution: 0.9992
+TPR on in-distribution(MNIST): 0.7181
+FPR on out-of-distribution(EMNIST): 0.0945
+FPR on out-of-distribution(NOTMNIST): 0.0372
+Classification accuracy on in-distribution: 0.9993
+TPR on in-distribution(MNIST): 0.7099
+FPR on out-of-distribution(EMNIST): 0.0909
+FPR on out-of-distribution(NOTMNIST): 0.0347
+Classification accuracy on in-distribution: 0.9993
+TPR on in-distribution(MNIST): 0.6995
+FPR on out-of-distribution(EMNIST): 0.0868
+FPR on out-of-distribution(NOTMNIST): 0.0325
+Classification accuracy on in-distribution: 0.9993
+TPR on in-distribution(MNIST): 0.6899
+FPR on out-of-distribution(EMNIST): 0.0829
+FPR on out-of-distribution(NOTMNIST): 0.0307
+Classification accuracy on in-distribution: 0.9993
+TPR on in-distribution(MNIST): 0.6802
+FPR on out-of-distribution(EMNIST): 0.0803
+FPR on out-of-distribution(NOTMNIST): 0.0291
+Classification accuracy on in-distribution: 0.9994
+TPR on in-distribution(MNIST): 0.6705
+FPR on out-of-distribution(EMNIST): 0.0773
+FPR on out-of-distribution(NOTMNIST): 0.0277
+Classification accuracy on in-distribution: 0.9995
+TPR on in-distribution(MNIST): 0.6607
+FPR on out-of-distribution(EMNIST): 0.0745
+FPR on out-of-distribution(NOTMNIST): 0.0264
+Classification accuracy on in-distribution: 0.9995
+TPR on in-distribution(MNIST): 0.6511
+FPR on out-of-distribution(EMNIST): 0.0720
+FPR on out-of-distribution(NOTMNIST): 0.0251
+Classification accuracy on in-distribution: 0.9995
+TPR on in-distribution(MNIST): 0.6421
+FPR on out-of-distribution(EMNIST): 0.0693
+FPR on out-of-distribution(NOTMNIST): 0.0236
+Classification accuracy on in-distribution: 0.9997
+TPR on in-distribution(MNIST): 0.6314
+FPR on out-of-distribution(EMNIST): 0.0662
+FPR on out-of-distribution(NOTMNIST): 0.0213
+Classification accuracy on in-distribution: 0.9997
+TPR on in-distribution(MNIST): 0.6202
+FPR on out-of-distribution(EMNIST): 0.0636
+FPR on out-of-distribution(NOTMNIST): 0.0199
+Classification accuracy on in-distribution: 0.9997
+TPR on in-distribution(MNIST): 0.6096
+FPR on out-of-distribution(EMNIST): 0.0614
+FPR on out-of-distribution(NOTMNIST): 0.0184
+Classification accuracy on in-distribution: 0.9997
+TPR on in-distribution(MNIST): 0.5964
+FPR on out-of-distribution(EMNIST): 0.0584
+FPR on out-of-distribution(NOTMNIST): 0.0171
+Classification accuracy on in-distribution: 0.9997
+TPR on in-distribution(MNIST): 0.5842
+FPR on out-of-distribution(EMNIST): 0.0559
+FPR on out-of-distribution(NOTMNIST): 0.0149
+Classification accuracy on in-distribution: 0.9996
+TPR on in-distribution(MNIST): 0.5705
+FPR on out-of-distribution(EMNIST): 0.0541
+FPR on out-of-distribution(NOTMNIST): 0.0137
+Classification accuracy on in-distribution: 0.9996
+TPR on in-distribution(MNIST): 0.5568
+FPR on out-of-distribution(EMNIST): 0.0520
+FPR on out-of-distribution(NOTMNIST): 0.0121
+Classification accuracy on in-distribution: 0.9996
+TPR on in-distribution(MNIST): 0.5454
+FPR on out-of-distribution(EMNIST): 0.0493
+FPR on out-of-distribution(NOTMNIST): 0.0110
+Classification accuracy on in-distribution: 0.9996
+TPR on in-distribution(MNIST): 0.5301
+FPR on out-of-distribution(EMNIST): 0.0474
+FPR on out-of-distribution(NOTMNIST): 0.0101
+Classification accuracy on in-distribution: 0.9996
+TPR on in-distribution(MNIST): 0.5190
+FPR on out-of-distribution(EMNIST): 0.0452
+FPR on out-of-distribution(NOTMNIST): 0.0089
+Classification accuracy on in-distribution: 0.9996
+TPR on in-distribution(MNIST): 0.5060
+FPR on out-of-distribution(EMNIST): 0.0437
+FPR on out-of-distribution(NOTMNIST): 0.0082
+Classification accuracy on in-distribution: 0.9996
+TPR on in-distribution(MNIST): 0.4917
+FPR on out-of-distribution(EMNIST): 0.0418
+FPR on out-of-distribution(NOTMNIST): 0.0075
+Classification accuracy on in-distribution: 0.9996
+TPR on in-distribution(MNIST): 0.4773
+FPR on out-of-distribution(EMNIST): 0.0399
+FPR on out-of-distribution(NOTMNIST): 0.0066
+Classification accuracy on in-distribution: 0.9996
+TPR on in-distribution(MNIST): 0.4644
+FPR on out-of-distribution(EMNIST): 0.0383
+FPR on out-of-distribution(NOTMNIST): 0.0061
+Classification accuracy on in-distribution: 0.9996
+TPR on in-distribution(MNIST): 0.4499
+FPR on out-of-distribution(EMNIST): 0.0371
+FPR on out-of-distribution(NOTMNIST): 0.0052
+Classification accuracy on in-distribution: 0.9995
+TPR on in-distribution(MNIST): 0.4359
+FPR on out-of-distribution(EMNIST): 0.0358
+FPR on out-of-distribution(NOTMNIST): 0.0047
+Classification accuracy on in-distribution: 0.9995
+TPR on in-distribution(MNIST): 0.4216
+FPR on out-of-distribution(EMNIST): 0.0335
+FPR on out-of-distribution(NOTMNIST): 0.0038
+Classification accuracy on in-distribution: 0.9995
+TPR on in-distribution(MNIST): 0.4078
+FPR on out-of-distribution(EMNIST): 0.0321
+FPR on out-of-distribution(NOTMNIST): 0.0037
+Classification accuracy on in-distribution: 0.9995
+TPR on in-distribution(MNIST): 0.3938
+FPR on out-of-distribution(EMNIST): 0.0307
+FPR on out-of-distribution(NOTMNIST): 0.0032
+Classification accuracy on in-distribution: 0.9995
+TPR on in-distribution(MNIST): 0.3830
+FPR on out-of-distribution(EMNIST): 0.0290
+FPR on out-of-distribution(NOTMNIST): 0.0031
+Classification accuracy on in-distribution: 0.9995
+TPR on in-distribution(MNIST): 0.3667
+FPR on out-of-distribution(EMNIST): 0.0277
+FPR on out-of-distribution(NOTMNIST): 0.0024
+Classification accuracy on in-distribution: 0.9994
+TPR on in-distribution(MNIST): 0.3536
+FPR on out-of-distribution(EMNIST): 0.0263
+FPR on out-of-distribution(NOTMNIST): 0.0021
+Classification accuracy on in-distribution: 0.9994
+TPR on in-distribution(MNIST): 0.3382
+FPR on out-of-distribution(EMNIST): 0.0251
+FPR on out-of-distribution(NOTMNIST): 0.0019
+Classification accuracy on in-distribution: 0.9997
+TPR on in-distribution(MNIST): 0.3230
+FPR on out-of-distribution(EMNIST): 0.0240
+FPR on out-of-distribution(NOTMNIST): 0.0018
+Classification accuracy on in-distribution: 1.0000
+TPR on in-distribution(MNIST): 0.3076
+FPR on out-of-distribution(EMNIST): 0.0225
+FPR on out-of-distribution(NOTMNIST): 0.0016
+Classification accuracy on in-distribution: 1.0000
+TPR on in-distribution(MNIST): 0.2957
+FPR on out-of-distribution(EMNIST): 0.0204
+FPR on out-of-distribution(NOTMNIST): 0.0015
+Classification accuracy on in-distribution: 1.0000
+TPR on in-distribution(MNIST): 0.2808
+FPR on out-of-distribution(EMNIST): 0.0194
+FPR on out-of-distribution(NOTMNIST): 0.0013
+Classification accuracy on in-distribution: 1.0000
+TPR on in-distribution(MNIST): 0.2669
+FPR on out-of-distribution(EMNIST): 0.0185
+FPR on out-of-distribution(NOTMNIST): 0.0013
+Classification accuracy on in-distribution: 1.0000
+TPR on in-distribution(MNIST): 0.2565
+FPR on out-of-distribution(EMNIST): 0.0173
+FPR on out-of-distribution(NOTMNIST): 0.0013
+Classification accuracy on in-distribution: 1.0000
+TPR on in-distribution(MNIST): 0.2435
+FPR on out-of-distribution(EMNIST): 0.0157
+FPR on out-of-distribution(NOTMNIST): 0.0012
+Classification accuracy on in-distribution: 1.0000
+TPR on in-distribution(MNIST): 0.2308
+FPR on out-of-distribution(EMNIST): 0.0148
+FPR on out-of-distribution(NOTMNIST): 0.0012
+Classification accuracy on in-distribution: 1.0000
+TPR on in-distribution(MNIST): 0.2190
+FPR on out-of-distribution(EMNIST): 0.0138
+FPR on out-of-distribution(NOTMNIST): 0.0011
