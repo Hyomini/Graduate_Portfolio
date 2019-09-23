@@ -219,7 +219,7 @@ for label in range(num_of_labels):
         temp[k * label + int(data_frame[i][2])].append(data[label][i])
 data2 = np.array(temp)
 num_of_labels = k * num_of_labels
-data = data2
+data_split = data2
 
 # Mu_hat(mean vector for each label, mu_hat[j] = mean of f(x[i]) in label j): calculating mean of the data in each label
 mu_hat = [np.zeros(num_of_neurons)] * num_of_labels
